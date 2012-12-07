@@ -1,14 +1,13 @@
 ^{:cljs
   (ns dalap.test.html-test
-    (:require [buster-cljs.core :refer [is is-equal]]
-              [goog.dom.classes :as gclass]
+    (:require [goog.dom.classes :as gclass]
               [goog.dom :as gdom]
               [dalap.html :as html]
               [dalap.walk :as walk])
     (:require-macros [buster-cljs.macros
-                      :refer [initialize-buster deftest describe it]]))}
+                      :refer [initialize-buster deftest describe it is]]))}
 (ns dalap.test.html-test
-  (:require [buster-cljs.clojure :refer [deftest describe it is is-equal]]
+  (:require [buster-cljs.clojure :refer [deftest describe it is]]
             [clojure.string :refer [split]]
             [clojure.xml :as xml]
             [dalap.html :as html]
@@ -27,7 +26,7 @@
 
 (defn assert-html
   ([in out] (assert-html in out nil))
-  ([in out msg] (is-equal (html/to-html in) out msg)))
+  ([in out msg] (is (= (html/to-html in) out) msg)))
 
 #_(:cljs
    (defn to-dom [o]
@@ -62,28 +61,26 @@
            parsed (xml/parse (ByteArrayInputStream. (.getBytes html-str)))
            result (get-in parsed [:attrs attr-name])]
        (is result msg)
-       (is-equal result attr-val msg))))
+       (is (= result attr-val) msg))))
 
 (deftest test-htmlserializable-protocol
   (it "visit function is working correctly"
-    (is-equal (html/visit "hello & world" nil)
-              "hello & world")))
+      (is (= (html/visit "hello & world" nil)
+             "hello & world"))))
 
 (deftest test-walker-with-html-visit
   (it "returns a valid walker"
     (let [walker-with-proto (walk/-gen-walker html/visit)]
-      (is-equal (walker-with-proto "hello world")
-                "hello world"))))
+      (is (= (walker-with-proto "hello world")
+             "hello world")))))
 
 (deftest test-to-html-function
   (it "with basic types"
-    (is-equal
-     (html/to-html "hello")
-     "hello"))
+      (is (= (html/to-html "hello")
+             "hello")))
   (it "with dom nodes"
-    (is-equal
-     (html/to-html (html/-build-dom-node :p.hello {} "world"))
-     "<p class=\"hello\">world</p>")))
+      (is  (= (html/to-html (html/-build-dom-node :p.hello {} "world"))
+              "<p class=\"hello\">world</p>"))))
 
 (deftest test-add-class
   (it "`add-class` works correctly"

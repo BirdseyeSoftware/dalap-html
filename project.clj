@@ -11,9 +11,9 @@
                  [buster-cljs "0.1.0-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "0.2.9"]
-            [lein-dalap-cljsbuild "0.1.0-SNAPSHOT"]]
+            [lein-dalap "0.1.0-SNAPSHOT"]]
 
-  :hooks [leiningen.dalap-cljsbuild]
+  :hooks [leiningen.dalap]
 
   :source-paths ["src/clj" "src/cljs"]
   :test-paths ["test/clj" "test/cljs"]
@@ -22,13 +22,6 @@
   {:builds
    [{:id :dev
      :source-path "src/cljs"
-     :dalap
-     {:paths
-      {
-       "src/clj/dalap/defaults.clj" "src/cljs/dalap/defaults.cljs"
-       "src/clj/dalap/html/escape.clj" "src/cljs/dalap/html/escape.cljs"
-       "src/clj/dalap/html.clj" "src/cljs/dalap/html.cljs"
-       }}
      :compiler
      {:output-to "resources/js/dalap_html_dev.js"
       :optimizations :whitespace
@@ -36,11 +29,6 @@
     ;;;
     {:id :browser-test
      :source-path "test/cljs"
-     :dalap
-     {:paths
-      {"test/clj/dalap/html/test/escape_test.clj" "test/cljs/dalap/html/test/escape_test.cljs"
-       "test/clj/dalap/test/html_test.clj" "test/cljs/dalap/test/html_test.cljs"
-       }}
      :compiler
      {:externs ["externs/buster.js"]
       :libraries ["resources/js/dalap_html_dev.js"]
