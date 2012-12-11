@@ -9,15 +9,15 @@ library should be really straightforward.
 
 ## Project Goals
 
-_Another rendering library... really?_. Yep, although libraries out
-there do a pretty good job, we were looking for more flexibility at
-the time of managing our views. dalap-html provides:
+_Another rendering library... really?_. Yep, although other libraries
+out there do a pretty good job, we were looking for more flexibility
+at the time of managing our views. dalap-html provides:
 
 * Different protocols that you can extend with your own types for
   maximum customization.
 
-* Allows to transform/decorate your templates after definition by
-  using something similar to CSS selectors (a la enlive).
+* Transform/Decorate your templates after definition by using
+  something similar to CSS selectors (a la enlive).
 
 * Provides automatic HTML escaping, if you want something to not be
   escaped, you have to be explicit about it.
