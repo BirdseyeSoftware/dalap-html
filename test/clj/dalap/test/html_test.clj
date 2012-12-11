@@ -34,28 +34,28 @@
   ([in out] (assert-html in out nil))
   ([in out msg] (is (= (html/to-html in) out) msg)))
 
-#_(:cljs
-   (defn to-dom [o]
-     (let [container (gdom/createElement "div")
-           _ (set! (.-innerHTML container)
-                   (html/to-html o))]
-       (.-firstChild container))))
+;; #_(:cljs
+;;    (defn to-dom [o]
+;;      (let [container (gdom/createElement "div")
+;;            _ (set! (.-innerHTML container)
+;;                    (html/to-html o))]
+;;        (.-firstChild container))))
 
-(defn assert-html-class
-  ([in class-vector]
-     (assert-html-class in class-vector nil))
-  ([in class-vector msg]
-     ^{:cljs
-       '(let [result (to-dom in)]
-          (is (every? (partial gclass/has result)
-                      class-vector)
-              msg))}
-     (let [html-str (html/to-html in)
-           parsed (xml/parse (ByteArrayInputStream. (.getBytes html-str)))
-           result (set (split (get-in parsed [:attrs :class]) #"\s+"))]
-       (is (= result
-              (set class-vector))
-           msg))))
+;; (defn assert-html-class
+;;   ([in class-vector]
+;;      (assert-html-class in class-vector nil))
+;;   ([in class-vector msg]
+;;      ^{:cljs
+;;        '(let [result (to-dom in)]
+;;           (is (every? (partial gclass/has result)
+;;                       class-vector)
+;;               msg))}
+;;      (let [html-str (html/to-html in)
+;;            parsed (xml/parse (ByteArrayInputStream. (.getBytes html-str)))
+;;            result (set (split (get-in parsed [:attrs :class]) #"\s+"))]
+;;        (is (= result
+;;               (set class-vector))
+;;            msg))))
 
 (defn assert-html-attr
   ([in attr-name attr-val]
@@ -85,8 +85,8 @@
          [:p.hello {} "world"]   "<p class=\"hello\">world</p>"))
 
   (it "with tag dsl"
-    (assert-html-class [:hr#id.cls] ["cls"])
-    (assert-html-class [:hr#id.classA.classB] ["classA" "classB"])
+    ;; (assert-html-class [:hr#id.cls] ["cls"])
+    ;; (assert-html-class [:hr#id.classA.classB] ["classA" "classB"])
     (assert-html-attr [:hr.clear {:asdf 123}]
                       :asdf "123")
     (are

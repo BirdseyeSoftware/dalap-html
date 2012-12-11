@@ -2,7 +2,8 @@
 /lib
 /classes
 /checkouts
-pom.xml
+pom.xml.asc
+/node_modules
 *.jar
 *.class
 .lein-deps-sum

@@ -21777,7 +21777,7 @@ goog.require("dalap.html.escape");
 goog.require("dalap.walk");
 goog.require("clojure.string");
 goog.require("clojure.set");
-dalap.html.make_set = function make_set(x) {
+dalap.html._make_set = function _make_set(x) {
   if(x == null) {
     return cljs.core.sorted_set.call(null)
   }else {
@@ -21792,7 +21792,7 @@ dalap.html.make_set = function make_set(x) {
     }
   }
 };
-dalap.html.nil_or_empty_QMARK_ = function nil_or_empty_QMARK_(x) {
+dalap.html._nil_or_empty_QMARK_ = function _nil_or_empty_QMARK_(x) {
   var or__3824__auto__ = x == null;
   if(or__3824__auto__) {
     return or__3824__auto__
@@ -22177,15 +22177,15 @@ dalap.html.visit["_"] = function(n, w) {
   return dalap.defaults.visit.call(null, n, w)
 };
 dalap.html.merge_tag_attrs = function merge_tag_attrs(tag_attrs, id, clazz) {
-  var base_attrs = cljs.core.into.call(null, cljs.core.sorted_map.call(null), cljs.core.filter.call(null, function(p1__1204_SHARP_) {
-    return cljs.core.not.call(null, dalap.html.nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, p1__1204_SHARP_, 1)))
+  var base_attrs = cljs.core.into.call(null, cljs.core.sorted_map.call(null), cljs.core.filter.call(null, function(p1__1197_SHARP_) {
+    return cljs.core.not.call(null, dalap.html._nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, p1__1197_SHARP_, 1)))
   }, cljs.core.sorted_map.call(null, "\ufdd0'id", id, "\ufdd0'class", clazz)));
   var attr_merge = function(result, p__4328) {
     var vec__4329 = p__4328;
     var k = cljs.core.nth.call(null, vec__4329, 0, null);
     var v = cljs.core.nth.call(null, vec__4329, 1, null);
     if(cljs.core._EQ_.call(null, k, "\ufdd0'class")) {
-      return cljs.core.assoc.call(null, result, k, clojure.set.union.call(null, (new cljs.core.Keyword("\ufdd0'class")).call(null, result, cljs.core.PersistentHashSet.EMPTY), dalap.html.make_set.call(null, v)))
+      return cljs.core.assoc.call(null, result, k, clojure.set.union.call(null, (new cljs.core.Keyword("\ufdd0'class")).call(null, result, cljs.core.PersistentHashSet.EMPTY), dalap.html._make_set.call(null, v)))
     }else {
       if("\ufdd0'else") {
         return cljs.core.assoc.call(null, result, k, v)
@@ -22197,7 +22197,7 @@ dalap.html.merge_tag_attrs = function merge_tag_attrs(tag_attrs, id, clazz) {
   return cljs.core.reduce.call(null, attr_merge, base_attrs, tag_attrs)
 };
 dalap.html.norm_dom_node_classes = function norm_dom_node_classes(classes) {
-  return dalap.html.make_set.call(null, cljs.core.string_QMARK_.call(null, classes) ? clojure.string.split.call(null, classes, /\./) : classes)
+  return dalap.html._make_set.call(null, cljs.core.string_QMARK_.call(null, classes) ? clojure.string.split.call(null, classes, /\./) : classes)
 };
 dalap.html._build_dom_node = function() {
   var _build_dom_node = null;
@@ -22246,13 +22246,13 @@ dalap.html.alter_class = function alter_class(node, f) {
   return cljs.core.update_in.call(null, node, cljs.core.PersistentVector.fromArray(["\ufdd0'attrs", "\ufdd0'attrs-map", "\ufdd0'class"], true), f)
 };
 dalap.html.add_class = function add_class(node, clazz) {
-  return dalap.html.alter_class.call(null, node, function(p1__1205_SHARP_) {
-    return clojure.set.union.call(null, p1__1205_SHARP_, dalap.html.make_set.call(null, clazz))
+  return dalap.html.alter_class.call(null, node, function(p1__1198_SHARP_) {
+    return clojure.set.union.call(null, p1__1198_SHARP_, dalap.html._make_set.call(null, clazz))
   })
 };
 dalap.html.remove_class = function remove_class(node, clazz) {
-  return dalap.html.alter_class.call(null, node, function(p1__1206_SHARP_) {
-    return cljs.core.disj.call(null, p1__1206_SHARP_, clazz)
+  return dalap.html.alter_class.call(null, node, function(p1__1199_SHARP_) {
+    return cljs.core.disj.call(null, p1__1199_SHARP_, clazz)
   })
 };
 dalap.html.has_class_QMARK_ = function has_class_QMARK_(node, clazz) {

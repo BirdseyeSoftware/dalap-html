@@ -13381,10 +13381,10 @@ clojure.set.superset_QMARK_ = function(a, b) {
     return cljs.core.contains_QMARK_.call(null, a, b)
   }, b) : c
 };
-dalap.html.make_set = function(a) {
+dalap.html._make_set = function(a) {
   return null == a ? cljs.core.sorted_set.call(null) : cljs.core.sequential_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.sorted_set, a) : cljs.core.sorted_set.call(null, a)
 };
-dalap.html.nil_or_empty_QMARK_ = function(a) {
+dalap.html._nil_or_empty_QMARK_ = function(a) {
   var b = null == a;
   return b ? b : cljs.core.empty_QMARK_.call(null, a)
 };
@@ -13593,15 +13593,15 @@ dalap.html.visit._ = function(a, b) {
 };
 dalap.html.merge_tag_attrs = function(a, b, c) {
   b = cljs.core.into.call(null, cljs.core.sorted_map.call(null), cljs.core.filter.call(null, function(a) {
-    return cljs.core.not.call(null, dalap.html.nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, a, 1)))
+    return cljs.core.not.call(null, dalap.html._nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, a, 1)))
   }, cljs.core.sorted_map.call(null, "\ufdd0'id", b, "\ufdd0'class", c)));
   return cljs.core.reduce.call(null, function(a, b) {
     var c = cljs.core.nth.call(null, b, 0, null), g = cljs.core.nth.call(null, b, 1, null);
-    return cljs.core._EQ_.call(null, c, "\ufdd0'class") ? cljs.core.assoc.call(null, a, c, clojure.set.union.call(null, (new cljs.core.Keyword("\ufdd0'class")).call(null, a, cljs.core.PersistentHashSet.EMPTY), dalap.html.make_set.call(null, g))) : cljs.core.assoc.call(null, a, c, g)
+    return cljs.core._EQ_.call(null, c, "\ufdd0'class") ? cljs.core.assoc.call(null, a, c, clojure.set.union.call(null, (new cljs.core.Keyword("\ufdd0'class")).call(null, a, cljs.core.PersistentHashSet.EMPTY), dalap.html._make_set.call(null, g))) : cljs.core.assoc.call(null, a, c, g)
   }, b, a)
 };
 dalap.html.norm_dom_node_classes = function(a) {
-  return dalap.html.make_set.call(null, cljs.core.string_QMARK_.call(null, a) ? clojure.string.split.call(null, a, /\./) : a)
+  return dalap.html._make_set.call(null, cljs.core.string_QMARK_.call(null, a) ? clojure.string.split.call(null, a, /\./) : a)
 };
 dalap.html._build_dom_node = function() {
   var a = null, b = function(b) {
@@ -13640,7 +13640,7 @@ dalap.html.alter_class = function(a, b) {
 };
 dalap.html.add_class = function(a, b) {
   return dalap.html.alter_class.call(null, a, function(a) {
-    return clojure.set.union.call(null, a, dalap.html.make_set.call(null, b))
+    return clojure.set.union.call(null, a, dalap.html._make_set.call(null, b))
   })
 };
 dalap.html.remove_class = function(a, b) {
@@ -14622,32 +14622,6 @@ dalap.test.html_test.assert_html = function() {
   a.cljs$lang$arity$3 = c;
   return a
 }();
-dalap.test.html_test.to_dom = function(a) {
-  var b = goog.dom.createElement("div");
-  b.innerHTML = dalap.html.to_html.call(null, a);
-  return b.firstChild
-};
-dalap.test.html_test.assert_html_class = function() {
-  var a = null, b = function(b, c) {
-    return a.call(null, b, c, null)
-  }, c = function(a, b, c) {
-    a = dalap.test.html_test.to_dom.call(null, a);
-    b = cljs.core.every_QMARK_.call(null, cljs.core.partial.call(null, goog.dom.classes.has, a), b);
-    c = cljs.core.truth_(c) ? [cljs.core.str(c), cljs.core.str(". ")].join("") : c;
-    return buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'every?", cljs.core.with_meta(cljs.core.list("\ufdd1'partial", "\ufdd1'gclass/has", "\ufdd1'result"), cljs.core.hash_map("\ufdd0'line", 11)), "\ufdd1'class-vector"), cljs.core.hash_map("\ufdd0'line", 11))), cljs.core.str(", got "), cljs.core.str(b)].join(""))
-  }, a = function(a, e, f) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, e);
-      case 3:
-        return c.call(this, a, e, f)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  return a
-}();
 dalap.test.html_test.assert_html_attr = function() {
   var a = null, b = function(b, c, f) {
     return a.call(null, b, c, f, null)
@@ -14668,15 +14642,6 @@ dalap.test.html_test.assert_html_attr = function() {
   a.cljs$lang$arity$4 = c;
   return a
 }();
-buster.spec.describe("test htmlserializable protocol", function() {
-  buster.spec.it("visit function is working correctly", function() {
-    var a = cljs.core._EQ_.call(null, dalap.html.visit.call(null, "hello & world", null), "hello & world"), b;
-    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'html/visit", "hello & world", null), cljs.core.hash_map("\ufdd0'line", 13)), "hello & world"), cljs.core.hash_map("\ufdd0'line", 13))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
-    return null
-  });
-  return null
-});
 buster.spec.describe("test to html", function() {
   buster.spec.it("with primitive types", function() {
     var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, "hello"), "hello"), b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
@@ -14698,64 +14663,8 @@ buster.spec.describe("test to html", function() {
     buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.list("\ufdd1'apply", "\ufdd1'html/-build-dom-node", cljs.core.vec(["\ufdd0'p.hello", cljs.core.hash_map(), "world"]))), '<p class="hello">world</p>')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     return null
   });
-  return null
-});
-buster.spec.describe("test dom node uitls", function() {
-  buster.spec.it("`add-class` works correctly", function() {
-    dalap.test.html_test.assert_html.call(null, dalap.html.add_class.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.what", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"other"}), "hello"), "bold"), '<p class="bold other what">hello</p>');
-    return null
-  });
-  buster.spec.it("`remove-class` works correctly", function() {
-    dalap.test.html_test.assert_html.call(null, dalap.html.remove_class.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.bold", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), "bold"), '<p class="what">hello</p>');
-    return null
-  });
-  buster.spec.it("`has-class?` works correctly", function() {
-    var a = dalap.html._build_dom_node.call(null, "\ufdd0'p.bold", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), b;
-    b = dalap.html.has_class_QMARK_.call(null, a, "bold");
-    b = cljs.core.truth_(b) ? dalap.html.has_class_QMARK_.call(null, a, "what") : b;
-    var c = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'and", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "bold"), cljs.core.hash_map("\ufdd0'line", 15)), cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "what"), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
-    b = cljs.core.not.call(null, dalap.html.has_class_QMARK_.call(null, a, "other"));
-    c = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'not", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "other"), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
-    return null
-  });
-  return null
-});
-buster.spec.describe("test basic types", function() {
-  buster.spec.it("numbers are translated correctly", function() {
-    dalap.test.html_test.assert_html.call(null, 1, "1", "to-html should work on non-container types");
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray([1], !0), "1", "should be the same as the non-container version");
-    return null
-  });
-  buster.spec.it("basic-sample-data is translated correctly", function() {
-    dalap.test.html_test.assert_html.call(null, dalap.test.html_test.basic_sample_data, dalap.test.html_test.basic_sample_data_str);
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([dalap.test.html_test.basic_sample_data], !0)], !0)], !0), dalap.test.html_test.basic_sample_data_str);
-    dalap.test.html_test.assert_html.call(null, cljs.core.seq.call(null, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([dalap.test.html_test.basic_sample_data], !0)], !0)], !0)), dalap.test.html_test.basic_sample_data_str);
-    dalap.test.html_test.assert_html.call(null, cljs.core.list.call(null, cljs.core.list.call(null, dalap.test.html_test.basic_sample_data)), dalap.test.html_test.basic_sample_data_str);
-    dalap.test.html_test.assert_html.call(null, function() {
-      return function b(c) {
-        return new cljs.core.LazySeq(null, !1, function() {
-          for(;;) {
-            if(cljs.core.seq.call(null, c)) {
-              var d = cljs.core.first.call(null, c);
-              return cljs.core.cons.call(null, d, b.call(null, cljs.core.rest.call(null, c)))
-            }
-            return null
-          }
-        }, null)
-      }.call(null, dalap.test.html_test.basic_sample_data)
-    }(), dalap.test.html_test.basic_sample_data_str);
-    return null
-  });
-  buster.spec.it("keywords are escaped correctly", function() {
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["", "\ufdd0'ti&tle", 'fo"o'], !0), ":ti&amp;tlefo&quot;o", "the keyword above should be HTML escaped");
-    return null
-  });
-  return null
-});
-buster.spec.describe("test vector tag dsl", function() {
-  buster.spec.it("vector as a tag dsl works correctly", function() {
+  buster.spec.it("with tag dsl", function() {
+    dalap.test.html_test.assert_html_attr.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.clear", cljs.core.ObjMap.fromObject(["\ufdd0'asdf"], {"\ufdd0'asdf":123})], !0), "\ufdd0'asdf", "123");
     var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr#id"], !0)), '<hr id="id" />'), b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
     buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'hr#id"])), '<hr id="id" />')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.classA"], !0)), '<hr class="classA" />');
@@ -14785,6 +14694,78 @@ buster.spec.describe("test vector tag dsl", function() {
   });
   return null
 });
+buster.spec.describe("test htmlserializable protocol", function() {
+  buster.spec.it("visit function is working correctly", function() {
+    var a = cljs.core._EQ_.call(null, dalap.html.visit.call(null, "hello & world", null), "hello & world"), b;
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'html/visit", "hello & world", null), cljs.core.hash_map("\ufdd0'line", 12)), "hello & world"), cljs.core.hash_map("\ufdd0'line", 12))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    return null
+  });
+  return null
+});
+buster.spec.describe("test dom node uitls", function() {
+  buster.spec.it("`add-class` works correctly", function() {
+    dalap.test.html_test.assert_html.call(null, dalap.html.add_class.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.what", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"other"}), "hello"), "bold"), '<p class="bold other what">hello</p>');
+    return null
+  });
+  buster.spec.it("`remove-class` works correctly", function() {
+    dalap.test.html_test.assert_html.call(null, dalap.html.remove_class.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.bold", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), "bold"), '<p class="what">hello</p>');
+    return null
+  });
+  buster.spec.it("`has-class?` works correctly", function() {
+    var a = dalap.html._build_dom_node.call(null, "\ufdd0'p.bold", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), b;
+    b = dalap.html.has_class_QMARK_.call(null, a, "bold");
+    b = cljs.core.truth_(b) ? dalap.html.has_class_QMARK_.call(null, a, "what") : b;
+    var c = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'and", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "bold"), cljs.core.hash_map("\ufdd0'line", 13)), cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "what"), cljs.core.hash_map("\ufdd0'line", 13))), cljs.core.hash_map("\ufdd0'line", 13))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
+    b = cljs.core.not.call(null, dalap.html.has_class_QMARK_.call(null, a, "other"));
+    c = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'not", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "other"), cljs.core.hash_map("\ufdd0'line", 13))), cljs.core.hash_map("\ufdd0'line", 13))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
+    return null
+  });
+  return null
+});
+buster.spec.describe("test basic types", function() {
+  buster.spec.it("numbers are translated correctly", function() {
+    dalap.test.html_test.assert_html.call(null, 1, "1", "to-html should work on non-container types");
+    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray([1], !0), "1", "should be the same as the non-container version");
+    return null
+  });
+  buster.spec.it("basic-sample-data is translated correctly", function() {
+    var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, dalap.test.html_test.basic_sample_data), dalap.test.html_test.basic_sample_data_str), b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", "\ufdd1'basic-sample-data"), "\ufdd1'basic-sample-data-str")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([dalap.test.html_test.basic_sample_data], !0)], !0)], !0)), dalap.test.html_test.basic_sample_data_str);
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec([cljs.core.vec([cljs.core.vec(["\ufdd1'basic-sample-data"])])])), "\ufdd1'basic-sample-data-str")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.seq.call(null, cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([dalap.test.html_test.basic_sample_data], !0)], !0)], !0))), dalap.test.html_test.basic_sample_data_str);
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.list("\ufdd1'seq", cljs.core.vec([cljs.core.vec([cljs.core.vec(["\ufdd1'basic-sample-data"])])]))), "\ufdd1'basic-sample-data-str")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.list.call(null, cljs.core.list.call(null, dalap.test.html_test.basic_sample_data))), dalap.test.html_test.basic_sample_data_str);
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.list("\ufdd1'list", cljs.core.list("\ufdd1'list", "\ufdd1'basic-sample-data"))), "\ufdd1'basic-sample-data-str")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, function() {
+      return function d(a) {
+        return new cljs.core.LazySeq(null, !1, function() {
+          for(;;) {
+            if(cljs.core.seq.call(null, a)) {
+              var b = cljs.core.first.call(null, a);
+              return cljs.core.cons.call(null, b, d.call(null, cljs.core.rest.call(null, a)))
+            }
+            return null
+          }
+        }, null)
+      }.call(null, dalap.test.html_test.basic_sample_data)
+    }()), dalap.test.html_test.basic_sample_data_str);
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.list("\ufdd1'for", cljs.core.vec(["\ufdd1'el", "\ufdd1'basic-sample-data"]), "\ufdd1'el")), "\ufdd1'basic-sample-data-str")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    return null
+  });
+  buster.spec.it("keywords are escaped correctly", function() {
+    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["", "\ufdd0'ti&tle", 'fo"o'], !0), ":ti&amp;tlefo&quot;o", "the keyword above should be HTML escaped");
+    return null
+  });
+  return null
+});
 dalap.html.test = {};
 dalap.html.test.escape_test = {};
 cljs.core.not_EQ_.call(null, "undefined", typeof exports) && (buster = require("buster"));
@@ -14793,13 +14774,13 @@ buster.spec.describe("test gen str escaper", function() {
     var a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
       return a.toString()
     }).call(null, "abc", 123), "abc123"), b = cljs.core.truth_("should behave the same as `clojure.core/str`") ? [cljs.core.str("should behave the same as `clojure.core/str`"), cljs.core.str(". ")].join("") : "should behave the same as `clojure.core/str`";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1202#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1202#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1200#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1200#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
     7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "abc123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
       return clojure.string.upper_case.call(null, a.toString())
     }).call(null, "abc", 123), "ABC123");
     b = cljs.core.truth_("should be uppercase version of `clojure.core/str`") ? [cljs.core.str("should be uppercase version of `clojure.core/str`"), cljs.core.str(". ")].join("") : "should be uppercase version of `clojure.core/str`";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1203#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'upper-case", cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1203#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1201#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'upper-case", cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1201#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
     7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "ABC123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     return null
   });

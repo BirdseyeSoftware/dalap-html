@@ -1,6 +1,6 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; src/clj/dalap/html.clj @ Tue Dec 11 21:39:09 UTC 2012
+;; src/clj/dalap/html.clj @ Tue Dec 11 23:41:56 UTC 2012
 ;;
 (ns dalap.html (:require [clojure.set :refer [union]] [clojure.string :refer [split]] [dalap.walk :as walk] [dalap.html.escape :refer [PreEscaped safe escape-html]] [dalap.defaults :as defaults]) (:require-macros [clojure.core.match.js :refer [match]]))
 (defn -make-set [x] (cond (nil? x) (sorted-set) (sequential? x) (apply sorted-set x) :else (sorted-set x)))
@@ -13,13 +13,13 @@
 (defn visit-dom-node [dom-node w] (let [{:keys [tag attrs content]} dom-node] (let [tag-name (name tag) is-empty (and (maybe-empty-tags tag-name) (empty? content)) open-tag [(safe \<) tag-name attrs (if is-empty (safe " />") (safe \>))] close-tag [(safe "</") tag-name (safe \>)]] (w [open-tag (if-not is-empty [content close-tag])]))))
 (defprotocol HtmlSerializable (visit [x w]))
 (extend-protocol HtmlSerializable default (visit [n w] (defaults/visit n w)) nil (visit [_ _] "") number (visit [n w] (safe (str n))) PreEscaped (visit [x _] x) DomNode (visit [dn w] (visit-dom-node dn w)) TagAttrs (visit [ta w] (visit-tag-attrs ta w)))
-(defn merge-tag-attrs [tag-attrs id clazz] (let [base-attrs (->> (sorted-map :id id :class clazz) (filter (fn* [p1__1210#] (not (-nil-or-empty? (nth p1__1210# 1))))) (into (sorted-map))) attr-merge (fn [result [k v]] (cond (= k :class) (assoc result k (union (:class result #{}) (-make-set v))) :else (assoc result k v)))] (reduce attr-merge base-attrs tag-attrs)))
+(defn merge-tag-attrs [tag-attrs id clazz] (let [base-attrs (->> (sorted-map :id id :class clazz) (filter (fn* [p1__1197#] (not (-nil-or-empty? (nth p1__1197# 1))))) (into (sorted-map))) attr-merge (fn [result [k v]] (cond (= k :class) (assoc result k (union (:class result #{}) (-make-set v))) :else (assoc result k v)))] (reduce attr-merge base-attrs tag-attrs)))
 (defn norm-dom-node-classes [classes] (-make-set (if (string? classes) (split classes #"\.") classes)))
 (defn -build-dom-node ([tag] (-build-dom-node tag {} [])) ([tag attrs] (-build-dom-node tag attrs [])) ([tag attrs content] (if-let [tag-match (re-matches re-tag (name tag))] (let [[_ tag id classes] tag-match tag-name (name tag) tag-attrs (TagAttrs. tag-name (merge-tag-attrs attrs id (norm-dom-node-classes classes)))] (DomNode. tag-name tag-attrs content)) (throw (new js/Error (format (str "This is an invalid dom node tag: %s." " Should be in the form :tagname#id.class") (name tag)))))))
 (defn dom-node? "Checks if it is an instance of DomNode class" [node] (instance? DomNode node))
 (defn alter-class "Modifies class collection of a DomNode" [node f] (update-in node [:attrs :attrs-map :class] f))
-(defn add-class "Adds a new class to the given DomNode" [node clazz] (alter-class node (fn* [p1__1211#] (union p1__1211# (-make-set clazz)))))
-(defn remove-class "Removes a class from the DomNode" [node clazz] (alter-class node (fn* [p1__1212#] (disj p1__1212# clazz))))
+(defn add-class "Adds a new class to the given DomNode" [node clazz] (alter-class node (fn* [p1__1198#] (union p1__1198# (-make-set clazz)))))
+(defn remove-class "Removes a class from the DomNode" [node clazz] (alter-class node (fn* [p1__1199#] (disj p1__1199# clazz))))
 (defn has-class? "Checks if DomNode has a specified class" [node clazz] ((get-in node [:attrs :attrs-map :class] (sorted-set)) clazz))
 (defn has-id? "Checks if DomNode has a specified id" [node id] (= (get-in node [:attrs :attrs-map :id]) id))
 (defn has-tag-name? "Checks if DomNode has a specified tag name" [node tag-name] (= (name (:tag node)) (name tag-name)))
