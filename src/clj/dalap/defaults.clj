@@ -10,7 +10,7 @@
 (extend-protocol Serializable
   ;; Object impl not provided to avoid subtle/silent bugs
   nil (visit [_ _] "")
-  String (visit [s _] s)
+  java.lang.String (visit [s _] s)
   ^:clj Character ^:clj (visit [c _] (str c))
   ^{:cljs number} Number (visit [n _] (str n))
   ^:clj Named ^:clj (visit [o _] (str o)))

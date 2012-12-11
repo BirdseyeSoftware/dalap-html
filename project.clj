@@ -1,17 +1,17 @@
-(defproject dalap-html "0.1.0-SNAPSHOT"
+(defproject dalap-html "0.1.0"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [dalap "0.0.1-SNAPSHOT"]
+                 [com.birdseye-sw/dalap "0.1.0"]
                  [org.clojure/core.match "0.2.0-alpha11"]
 
                  [org.clojure/google-closure-library "0.0-1376-2"]
-                 [buster-cljs "0.1.0-SNAPSHOT"]]
+                 [com.birdseye-sw/buster-cljs "0.1.0"]]
 
   :plugins [[lein-cljsbuild "0.2.9"]
-            [lein-dalap "0.1.0-SNAPSHOT"]]
+            [com.birdseye-sw/lein-dalap "0.1.0"]]
 
   :hooks [leiningen.dalap]
 
@@ -29,6 +29,7 @@
     ;;;
     {:id :browser-test
      :source-path "test/cljs"
+     :notify-command ["buster_runner.sh"]
      :compiler
      {:externs ["externs/buster.js"]
       :libraries ["resources/js/dalap_html_dev.js"]
@@ -38,6 +39,7 @@
     ;;;
     {:id :node-test
      :source-path "test/cljs"
+     :notify-command ["buster_runner.sh"]
      :compiler
      {:externs ["externs/buster.js"]
       :libraries ["resources/js/dalap_html_dev.js"]
@@ -47,6 +49,7 @@
     ;;;
     {:id :browser-test-optimized
      :source-path "test/cljs"
+     :notify-command ["buster_runner.sh"]
      :compiler
      {:externs ["externs/buster.js"]
       :libraries ["resources/js/dalap_html_dev.js"]

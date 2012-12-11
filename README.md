@@ -1,4 +1,4 @@
-# dalap-html
+# dalap-html [![Build Status](https://travis-ci.org/BirdseyeSoftware/dalap-html.png)](https://travis-ci.org/BirdseyeSoftware/dalap-html)
 
 dalap-html provides an easy yet powerful library to render your
 templates using either Clojure (for server side rendering) or
@@ -71,10 +71,6 @@ Please refer to our [documentation site][documentation_site], our
 
 This library has been tested on Clojure 1.4 and Clojurescript version
 that comes bundled with `lein-cljsbuild` 0.2.9
-
-## Continuous Integration Status
-
-[![Build Status](https://travis-ci.org/BirdseyeSoftware/dalap-html.png)](https://travis-ci.org/BirdseyeSoftware/dalap-html)
 
 ## License
 

@@ -20,24 +20,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; General purpose utility functions
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn make-set [x]
+(defn -make-set [x]
   (cond
     (nil? x) (sorted-set)
     (sequential? x) (apply sorted-set x)
     :else (sorted-set x)))
 
-(defn nil-or-empty? [x]
+(defn -nil-or-empty? [x]
   (or (nil? x)
       (empty? x)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Tag parsing utility functions
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def ^{:doc "Regexp for CSS-style id or class in a tag name."}
   re-tag  #"([^\s\.#]+)(?:#([^\s\.#]+))?(?:\.([^\s#]+))?")
@@ -50,8 +46,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Protocols & Types for HTML serialization
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defrecord TagAttrs [tag attrs-map])
 (defrecord DomNode [tag attrs content])
@@ -81,7 +75,7 @@
   (visit [x w]))
 
 (extend-protocol HtmlSerializable
-  Object (visit [n w] (defaults/visit n w))
+  java.lang.Object (visit [n w] (defaults/visit n w))
   nil (visit [_ _] "")
   ^{:cljs number} Number (visit [n w] (safe (str n)))
   PreEscaped (visit [x _] x)
@@ -94,20 +88,20 @@
 
 (defn merge-tag-attrs [tag-attrs id clazz]
   (let [
-    base-attrs (->> {:id id :class clazz}
-                    (filter #(not (nil-or-empty? (nth % 1))))
-                    (into {}))
+    base-attrs (->> (sorted-map :id id :class clazz)
+                    (filter #(not (-nil-or-empty? (nth % 1))))
+                    (into (sorted-map)))
     attr-merge (fn [result [k v]]
                  (cond
                    (= k :class) (assoc result
                                        k
                                        (union (:class result #{})
-                                              (make-set v)))
+                                              (-make-set v)))
                    :else (assoc result k v)))]
   (reduce attr-merge base-attrs tag-attrs)))
 
 (defn norm-dom-node-classes [classes]
-  (make-set
+  (-make-set
    (if (string? classes)
      (split classes #"\.")
      classes)))
@@ -134,25 +128,39 @@
 ;; Utility functions for adding/removing HTML classes on
 ;; DomNode types
 
-(defn dom-node? [node]
+(defn dom-node?
+  "Checks if it is an instance of DomNode class"
+  [node]
   (instance? DomNode node))
 
-(defn alter-class [node f]
+(defn alter-class
+  "Modifies class collection of a DomNode"
+  [^DomNode node f]
   (update-in node [:attrs :attrs-map :class] f))
 
-(defn add-class [node clazz]
-  (alter-class node #(union % (make-set clazz))))
+(defn add-class
+  "Adds a new class to the given DomNode"
+  [node clazz]
+  (alter-class node #(union % (-make-set clazz))))
 
-(defn remove-class [node clazz]
+(defn remove-class
+  "Removes a class from the DomNode"
+  [node clazz]
   (alter-class node #(disj % clazz)))
 
-(defn has-class? [node clazz]
+(defn has-class?
+  "Checks if DomNode has a specified class"
+  [node clazz]
   ((get-in node [:attrs :attrs-map :class] (sorted-set)) clazz))
 
-(defn has-id? [node id]
+(defn has-id?
+  "Checks if DomNode has a specified id"
+  [node id]
   (= (get-in node [:attrs :attrs-map :id]) id))
 
-(defn has-tag-name? [node tag-name]
+(defn has-tag-name?
+  "Checks if DomNode has a specified tag name"
+  [node tag-name]
   (= (name (:tag node)) (name tag-name)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -160,7 +168,9 @@
 ;; HTML serialization for vectors
 
 
-(defn visit-vector [v w]
+(defn visit-vector
+  "Transforms a vector into a DomNode"
+  [v w]
   (let [named? (fn [x]
                  (or (symbol? x)
                      (keyword? x)))]
@@ -176,7 +186,7 @@
 
 ^{:cljs
   (extend-protocol HtmlSerializable
-    PersistentVector
+    clojure.lang.PersistentVector
     (visit [vec w]
       (visit-vector vec w)))}
 (extend IPersistentVector HtmlSerializable {:visit visit-vector})
@@ -193,6 +203,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def doctype
+  "Possible doctypes that could be on an HTML template"
   {:html4
    (safe "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" "
         "\"http://www.w3.org/TR/html4/safeict.dtd\">\n")
@@ -205,7 +216,9 @@
    :html5
    (safe "<!DOCTYPE html>\n")})
 
-(defn html5 [& contents]
+(defn html5
+  "Creates an html5 template"
+  [& contents]
   [(doctype :html5)
    [:html
     contents]])

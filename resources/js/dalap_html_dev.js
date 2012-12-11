@@ -22177,9 +22177,9 @@ dalap.html.visit["_"] = function(n, w) {
   return dalap.defaults.visit.call(null, n, w)
 };
 dalap.html.merge_tag_attrs = function merge_tag_attrs(tag_attrs, id, clazz) {
-  var base_attrs = cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.filter.call(null, function(p1__1180_SHARP_) {
-    return cljs.core.not.call(null, dalap.html.nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, p1__1180_SHARP_, 1)))
-  }, cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'class"], {"\ufdd0'id":id, "\ufdd0'class":clazz})));
+  var base_attrs = cljs.core.into.call(null, cljs.core.sorted_map.call(null), cljs.core.filter.call(null, function(p1__1204_SHARP_) {
+    return cljs.core.not.call(null, dalap.html.nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, p1__1204_SHARP_, 1)))
+  }, cljs.core.sorted_map.call(null, "\ufdd0'id", id, "\ufdd0'class", clazz)));
   var attr_merge = function(result, p__4328) {
     var vec__4329 = p__4328;
     var k = cljs.core.nth.call(null, vec__4329, 0, null);
@@ -22246,13 +22246,13 @@ dalap.html.alter_class = function alter_class(node, f) {
   return cljs.core.update_in.call(null, node, cljs.core.PersistentVector.fromArray(["\ufdd0'attrs", "\ufdd0'attrs-map", "\ufdd0'class"], true), f)
 };
 dalap.html.add_class = function add_class(node, clazz) {
-  return dalap.html.alter_class.call(null, node, function(p1__1181_SHARP_) {
-    return clojure.set.union.call(null, p1__1181_SHARP_, dalap.html.make_set.call(null, clazz))
+  return dalap.html.alter_class.call(null, node, function(p1__1205_SHARP_) {
+    return clojure.set.union.call(null, p1__1205_SHARP_, dalap.html.make_set.call(null, clazz))
   })
 };
 dalap.html.remove_class = function remove_class(node, clazz) {
-  return dalap.html.alter_class.call(null, node, function(p1__1182_SHARP_) {
-    return cljs.core.disj.call(null, p1__1182_SHARP_, clazz)
+  return dalap.html.alter_class.call(null, node, function(p1__1206_SHARP_) {
+    return cljs.core.disj.call(null, p1__1206_SHARP_, clazz)
   })
 };
 dalap.html.has_class_QMARK_ = function has_class_QMARK_(node, clazz) {

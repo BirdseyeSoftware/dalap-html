@@ -13592,9 +13592,9 @@ dalap.html.visit._ = function(a, b) {
   return dalap.defaults.visit.call(null, a, b)
 };
 dalap.html.merge_tag_attrs = function(a, b, c) {
-  b = cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, cljs.core.filter.call(null, function(a) {
+  b = cljs.core.into.call(null, cljs.core.sorted_map.call(null), cljs.core.filter.call(null, function(a) {
     return cljs.core.not.call(null, dalap.html.nil_or_empty_QMARK_.call(null, cljs.core.nth.call(null, a, 1)))
-  }, cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'class"], {"\ufdd0'id":b, "\ufdd0'class":c})));
+  }, cljs.core.sorted_map.call(null, "\ufdd0'id", b, "\ufdd0'class", c)));
   return cljs.core.reduce.call(null, function(a, b) {
     var c = cljs.core.nth.call(null, b, 0, null), g = cljs.core.nth.call(null, b, 1, null);
     return cljs.core._EQ_.call(null, c, "\ufdd0'class") ? cljs.core.assoc.call(null, a, c, clojure.set.union.call(null, (new cljs.core.Keyword("\ufdd0'class")).call(null, a, cljs.core.PersistentHashSet.EMPTY), dalap.html.make_set.call(null, g))) : cljs.core.assoc.call(null, a, c, g)
@@ -14677,54 +14677,47 @@ buster.spec.describe("test htmlserializable protocol", function() {
   });
   return null
 });
-buster.spec.describe("test walker with html visit", function() {
-  buster.spec.it("returns a valid walker", function() {
-    var a = dalap.walk._gen_walker.call(null, dalap.html.visit), a = cljs.core._EQ_.call(null, a.call(null, "hello world"), "hello world"), b;
+buster.spec.describe("test to html", function() {
+  buster.spec.it("with primitive types", function() {
+    var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, "hello"), "hello"), b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", "hello"), "hello")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, 123), "123");
     b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'walker-with-proto", "hello world"), cljs.core.hash_map("\ufdd0'line", 14)), "hello world"), cljs.core.hash_map("\ufdd0'line", 14))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", 123), "123")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, "\ufdd0'keyword"), "<keyword></keyword>");
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", "\ufdd0'keyword"), "<keyword></keyword>")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, "\ufdd1'symbol"), "<symbol></symbol>");
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.list("\ufdd1'quote", "\ufdd1'symbol")), "<symbol></symbol>")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    return null
+  });
+  buster.spec.it("with DomNode types", function() {
+    var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.apply.call(null, dalap.html._build_dom_node, cljs.core.PersistentVector.fromArray(["\ufdd0'p.hello", cljs.core.ObjMap.EMPTY, "world"], !0))), '<p class="hello">world</p>'), b;
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.list("\ufdd1'apply", "\ufdd1'html/-build-dom-node", cljs.core.vec(["\ufdd0'p.hello", cljs.core.hash_map(), "world"]))), '<p class="hello">world</p>')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     return null
   });
   return null
 });
-buster.spec.describe("test to html function", function() {
-  buster.spec.it("with basic types", function() {
-    var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, "hello"), "hello"), b;
-    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'html/to-html", "hello"), cljs.core.hash_map("\ufdd0'line", 15)), "hello"), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
-    return null
-  });
-  buster.spec.it("with dom nodes", function() {
-    var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.hello", cljs.core.ObjMap.EMPTY, "world")), '<p class="hello">world</p>'), b;
-    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'html/to-html", cljs.core.with_meta(cljs.core.list("\ufdd1'html/-build-dom-node", "\ufdd0'p.hello", cljs.core.hash_map(), "world"), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.hash_map("\ufdd0'line", 15)), '<p class="hello">world</p>'), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
-    return null
-  });
-  return null
-});
-buster.spec.describe("test add class", function() {
+buster.spec.describe("test dom node uitls", function() {
   buster.spec.it("`add-class` works correctly", function() {
     dalap.test.html_test.assert_html.call(null, dalap.html.add_class.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.what", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"other"}), "hello"), "bold"), '<p class="bold other what">hello</p>');
     return null
   });
-  return null
-});
-buster.spec.describe("test remove class", function() {
   buster.spec.it("`remove-class` works correctly", function() {
     dalap.test.html_test.assert_html.call(null, dalap.html.remove_class.call(null, dalap.html._build_dom_node.call(null, "\ufdd0'p.bold", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), "bold"), '<p class="what">hello</p>');
     return null
   });
-  return null
-});
-buster.spec.describe("test has class", function() {
   buster.spec.it("`has-class?` works correctly", function() {
     var a = dalap.html._build_dom_node.call(null, "\ufdd0'p.bold", cljs.core.ObjMap.fromObject(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), b;
     b = dalap.html.has_class_QMARK_.call(null, a, "bold");
     b = cljs.core.truth_(b) ? dalap.html.has_class_QMARK_.call(null, a, "what") : b;
     var c = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'and", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "bold"), cljs.core.hash_map("\ufdd0'line", 18)), cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "what"), cljs.core.hash_map("\ufdd0'line", 18))), cljs.core.hash_map("\ufdd0'line", 18))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
+    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'and", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "bold"), cljs.core.hash_map("\ufdd0'line", 15)), cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "what"), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
     b = cljs.core.not.call(null, dalap.html.has_class_QMARK_.call(null, a, "other"));
     c = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
-    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'not", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "other"), cljs.core.hash_map("\ufdd0'line", 18))), cljs.core.hash_map("\ufdd0'line", 18))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
+    buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'not", cljs.core.with_meta(cljs.core.list("\ufdd1'html/has-class?", "\ufdd1'node", "other"), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.hash_map("\ufdd0'line", 15))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
     return null
   });
   return null
@@ -14763,16 +14756,31 @@ buster.spec.describe("test basic types", function() {
 });
 buster.spec.describe("test vector tag dsl", function() {
   buster.spec.it("vector as a tag dsl works correctly", function() {
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr#id"], !0), '<hr id="id" />');
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.classA"], !0), '<hr class="classA" />');
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.classA.classB"], !0), '<hr class="classA classB" />');
-    dalap.test.html_test.assert_html_class.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr#id.cls"], !0), cljs.core.PersistentVector.fromArray(["cls"], !0));
-    dalap.test.html_test.assert_html_class.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr#id.classA.classB"], !0), cljs.core.PersistentVector.fromArray(["classA", "classB"], !0));
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div", dalap.test.html_test.basic_sample_data], !0)], !0), [cljs.core.str("<div><div>"), cljs.core.str(dalap.test.html_test.basic_sample_data_str), cljs.core.str("</div></div>")].join(""));
-    dalap.test.html_test.assert_html_attr.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.clear", cljs.core.ObjMap.fromObject(["\ufdd0'asdf"], {"\ufdd0'asdf":123})], !0), "\ufdd0'asdf", "123");
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type"], {"\ufdd0'type":"text"})], !0), '<input type="text" />');
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div"], !0)], !0)], !0)], !0), "<div><div><div><div></div></div></div></div>");
-    dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div#a", cljs.core.PersistentVector.fromArray(["\ufdd0'div#b", cljs.core.PersistentVector.fromArray(["\ufdd0'div#c", cljs.core.PersistentVector.fromArray(["\ufdd0'div#d"], !0)], !0)], !0)], !0), [cljs.core.str('<div id="a"><div id="b"><div id="c"><div id="d">'), cljs.core.str("</div></div></div></div>")].join(""));
+    var a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr#id"], !0)), '<hr id="id" />'), b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'hr#id"])), '<hr id="id" />')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.classA"], !0)), '<hr class="classA" />');
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'hr.classA"])), '<hr class="classA" />')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'hr.classA.classB"], !0)), '<hr class="classA classB" />');
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'hr.classA.classB"])), '<hr class="classA classB" />')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div", dalap.test.html_test.basic_sample_data], !0)], !0)), [cljs.core.str("<div><div>"), cljs.core.str(dalap.test.html_test.basic_sample_data_str), cljs.core.str("</div></div>")].join(""));
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'div", cljs.core.vec(["\ufdd0'div", "\ufdd1'basic-sample-data"])])), cljs.core.list("\ufdd1'str", "<div><div>", "\ufdd1'basic-sample-data-str", "</div></div>"))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type"], {"\ufdd0'type":"text"})], !0)), '<input type="text" />');
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'input", cljs.core.hash_map("\ufdd0'type", "text")])), '<input type="text" />')), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.PersistentVector.fromArray(["\ufdd0'div"], !0)], !0)], !0)], !0)), "<div><div><div><div></div></div></div></div>");
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'div", cljs.core.vec(["\ufdd0'div", cljs.core.vec(["\ufdd0'div", cljs.core.vec(["\ufdd0'div"])])])])), "<div><div><div><div></div></div></div></div>")), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div#a", cljs.core.PersistentVector.fromArray(["\ufdd0'div#b", cljs.core.PersistentVector.fromArray(["\ufdd0'div#c", cljs.core.PersistentVector.fromArray(["\ufdd0'div#d"], !0)], !0)], !0)], !0)), [cljs.core.str('<div id="a"><div id="b"><div id="c"><div id="d">'), cljs.core.str("</div></div></div></div>")].join(""));
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'div#a", cljs.core.vec(["\ufdd0'div#b", cljs.core.vec(["\ufdd0'div#c", cljs.core.vec(["\ufdd0'div#d"])])])])), cljs.core.list("\ufdd1'str", '<div id="a"><div id="b"><div id="c"><div id="d">', "</div></div></div></div>"))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.to_html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'form#contact", cljs.core.ObjMap.fromObject(["\ufdd0'action"], {"\ufdd0'action":"GET"}), cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type", "\ufdd0'name", "\ufdd0'value"], {"\ufdd0'type":"text", "\ufdd0'name":"first-name", "\ufdd0'value":"John & Paul"})], !0)], !0)), [cljs.core.str('<form action="GET" id="contact">'), cljs.core.str('<input name="first-name" type="text" value="John &amp; Paul" />'), 
+    cljs.core.str("</form>")].join(""));
+    b = cljs.core.truth_(null) ? [cljs.core.str(null), cljs.core.str(". ")].join("") : null;
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.list("\ufdd1'=", cljs.core.list("\ufdd1'html/to-html", cljs.core.vec(["\ufdd0'form#contact", cljs.core.hash_map("\ufdd0'action", "GET"), cljs.core.vec(["\ufdd0'input", cljs.core.hash_map("\ufdd0'type", "text", "\ufdd0'name", "first-name", "\ufdd0'value", "John & Paul")])])), cljs.core.list("\ufdd1'str", '<form action="GET" id="contact">', '<input name="first-name" type="text" value="John &amp; Paul" />', "</form>"))), 
+    cljs.core.str(", got "), cljs.core.str(a)].join(""));
     return null
   });
   return null
@@ -14785,13 +14793,13 @@ buster.spec.describe("test gen str escaper", function() {
     var a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
       return a.toString()
     }).call(null, "abc", 123), "abc123"), b = cljs.core.truth_("should behave the same as `clojure.core/str`") ? [cljs.core.str("should behave the same as `clojure.core/str`"), cljs.core.str(". ")].join("") : "should behave the same as `clojure.core/str`";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1183#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1183#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1202#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1202#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
     7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "abc123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
       return clojure.string.upper_case.call(null, a.toString())
     }).call(null, "abc", 123), "ABC123");
     b = cljs.core.truth_("should be uppercase version of `clojure.core/str`") ? [cljs.core.str("should be uppercase version of `clojure.core/str`"), cljs.core.str(". ")].join("") : "should be uppercase version of `clojure.core/str`";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1184#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'upper-case", cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1184#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1203#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'upper-case", cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1203#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
     7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "ABC123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     return null
   });

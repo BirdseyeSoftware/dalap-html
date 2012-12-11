@@ -91,7 +91,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 (extend-protocol HtmlEscapable
-  String
+  java.lang.String
   (-to-html-escaped-str [s]
     (-escape-html-chars s)))
 
