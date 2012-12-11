@@ -1,8 +1,8 @@
-(defproject dalap-html "0.1.0"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+(defproject com.birdseye-sw/dalap-html "0.1.0"
+  :description "HTML template renderer using dalap"
+  :url "http://birdseye-sw.com/oss/dalap-html"
+  :license {:name "MIT"
+            :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [com.birdseye-sw/dalap "0.1.0"]
                  [org.clojure/core.match "0.2.0-alpha11"]
