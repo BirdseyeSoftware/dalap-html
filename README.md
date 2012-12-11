@@ -74,7 +74,7 @@ that comes bundled with `lein-cljsbuild` 0.2.9
 
 ## License
 
-Copyright © 2012 Birdseye Software
+Copyright © 2012 Birdseye Software Ltd.
 
 Distributed under the MIT License.
 
