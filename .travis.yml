@@ -17,4 +17,4 @@ before_script:
   - "sleep 3"
   - "echo 'Done.'"
 script:
-  - lein test && npm test
+  - lein2 test && npm test
