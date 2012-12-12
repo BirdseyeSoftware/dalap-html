@@ -1,8 +1,8 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; test/clj/dalap/html/test/escape_test.clj @ Tue Dec 11 23:41:56 UTC 2012
+;; test/clj/dalap/test/html/escape_test.clj @ Wed Dec 12 01:21:42 UTC 2012
 ;;
-(ns dalap.html.test.escape-test (:require [clojure.string :refer [upper-case]] [dalap.html.escape :as esc]) (:require-macros [buster-cljs.macros :refer [initialize-buster deftest describe it is]]))
+(ns dalap.test.html.escape-test (:require [clojure.string :refer [upper-case]] [dalap.html.escape :as esc]) (:require-macros [buster-cljs.macros :refer [initialize-buster deftest describe it is]]))
 (do (initialize-buster))
 (deftest test-gen-str-escaper (it "creates a `str` function successfully" (is (= ((esc/-gen-str-escaper (fn* [p1__1200#] (.toString p1__1200#))) "abc" 123) "abc123") "should behave the same as `clojure.core/str`") (is (= ((esc/-gen-str-escaper (fn* [p1__1201#] (upper-case (.toString p1__1201#)))) "abc" 123) "ABC123") "should be uppercase version of `clojure.core/str`")))
 (deftest test-low-level-char-escaping (it "check low level char escaping" (doseq [[k v] esc/html-escaping-map] [(is (= (esc/-escape-html-chars k) v) "test lower-level escaper") (is (= (esc/escape-html (str k)) v) "test via HtmlEscapable protocol")])))

@@ -1122,60 +1122,6 @@ goog.array.shuffle = function(a, b) {
     a[e] = f
   }
 };
-goog.dom = {};
-goog.dom.classes = {};
-goog.dom.classes.set = function(a, b) {
-  a.className = b
-};
-goog.dom.classes.get = function(a) {
-  return(a = a.className) && "function" == typeof a.split ? a.split(/\s+/) : []
-};
-goog.dom.classes.add = function(a, b) {
-  var c = goog.dom.classes.get(a), d = goog.array.slice(arguments, 1), d = goog.dom.classes.add_(c, d);
-  a.className = c.join(" ");
-  return d
-};
-goog.dom.classes.remove = function(a, b) {
-  var c = goog.dom.classes.get(a), d = goog.array.slice(arguments, 1), d = goog.dom.classes.remove_(c, d);
-  a.className = c.join(" ");
-  return d
-};
-goog.dom.classes.add_ = function(a, b) {
-  for(var c = 0, d = 0;d < b.length;d++) {
-    goog.array.contains(a, b[d]) || (a.push(b[d]), c++)
-  }
-  return c == b.length
-};
-goog.dom.classes.remove_ = function(a, b) {
-  for(var c = 0, d = 0;d < a.length;d++) {
-    goog.array.contains(b, a[d]) && (goog.array.splice(a, d--, 1), c++)
-  }
-  return c == b.length
-};
-goog.dom.classes.swap = function(a, b, c) {
-  for(var d = goog.dom.classes.get(a), e = !1, f = 0;f < d.length;f++) {
-    d[f] == b && (goog.array.splice(d, f--, 1), e = !0)
-  }
-  e && (d.push(c), a.className = d.join(" "));
-  return e
-};
-goog.dom.classes.addRemove = function(a, b, c) {
-  var d = goog.dom.classes.get(a);
-  goog.isString(b) ? goog.array.remove(d, b) : goog.isArray(b) && goog.dom.classes.remove_(d, b);
-  goog.isString(c) && !goog.array.contains(d, c) ? d.push(c) : goog.isArray(c) && goog.dom.classes.add_(d, c);
-  a.className = d.join(" ")
-};
-goog.dom.classes.has = function(a, b) {
-  return goog.array.contains(goog.dom.classes.get(a), b)
-};
-goog.dom.classes.enable = function(a, b, c) {
-  c ? goog.dom.classes.add(a, b) : goog.dom.classes.remove(a, b)
-};
-goog.dom.classes.toggle = function(a, b) {
-  var c = !goog.dom.classes.has(a, b);
-  goog.dom.classes.enable(a, b, c);
-  return c
-};
 goog.object = {};
 goog.object.forEach = function(a, b, c) {
   for(var d in a) {
@@ -12749,7 +12695,303 @@ cljs.core.UUID.prototype.toString = function() {
   return cljs.core.pr_str.call(null, this)
 };
 cljs.core.UUID;
-var dalap = {walk:{}};
+var clojure = {string:{}};
+clojure.string.seq_reverse = function(a) {
+  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
+};
+clojure.string.reverse = function(a) {
+  return a.split("").reverse().join("")
+};
+clojure.string.replace = function(a, b, c) {
+  if(cljs.core.string_QMARK_.call(null, b)) {
+    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
+  }
+  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
+    return a.replace(RegExp(b.source, "g"), c)
+  }
+  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
+};
+clojure.string.replace_first = function(a, b, c) {
+  return a.replace(b, c)
+};
+clojure.string.join = function() {
+  var a = null, b = function(a) {
+    return cljs.core.apply.call(null, cljs.core.str, a)
+  }, c = function(a, b) {
+    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
+  }, a = function(a, e) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, a);
+      case 2:
+        return c.call(this, a, e)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$1 = b;
+  a.cljs$lang$arity$2 = c;
+  return a
+}();
+clojure.string.upper_case = function(a) {
+  return a.toUpperCase()
+};
+clojure.string.lower_case = function(a) {
+  return a.toLowerCase()
+};
+clojure.string.capitalize = function(a) {
+  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
+};
+clojure.string.split = function() {
+  var a = null, b = function(a, b) {
+    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+  }, c = function(a, b, c) {
+    if(1 > c) {
+      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+    }
+    for(var g = cljs.core.PersistentVector.EMPTY;;) {
+      if(cljs.core._EQ_.call(null, c, 1)) {
+        return cljs.core.conj.call(null, g, a)
+      }
+      var h = cljs.core.re_find.call(null, b, a);
+      if(cljs.core.truth_(h)) {
+        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
+      }else {
+        return cljs.core.conj.call(null, g, a)
+      }
+    }
+  }, a = function(a, e, f) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, a, e);
+      case 3:
+        return c.call(this, a, e, f)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$2 = b;
+  a.cljs$lang$arity$3 = c;
+  return a
+}();
+clojure.string.split_lines = function(a) {
+  return clojure.string.split.call(null, a, /\n|\r\n/)
+};
+clojure.string.trim = function(a) {
+  return goog.string.trim(a)
+};
+clojure.string.triml = function(a) {
+  return goog.string.trimLeft(a)
+};
+clojure.string.trimr = function(a) {
+  return goog.string.trimRight(a)
+};
+clojure.string.trim_newline = function(a) {
+  for(var b = a.length;;) {
+    if(0 === b) {
+      return""
+    }
+    var c = cljs.core._lookup.call(null, a, b - 1, null);
+    var d = cljs.core._EQ_.call(null, c, "\n"), c = d ? d : cljs.core._EQ_.call(null, c, "\r");
+    if(c) {
+      b -= 1
+    }else {
+      return a.substring(0, b)
+    }
+  }
+};
+clojure.string.blank_QMARK_ = function(a) {
+  return goog.string.isEmptySafe(a)
+};
+clojure.string.escape = function(a, b) {
+  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
+    if(cljs.core._EQ_.call(null, d, e)) {
+      return c.toString()
+    }
+    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
+    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
+    e += 1
+  }
+};
+var dalap = {html:{}};
+dalap.html.escape = {};
+dalap.html.escape.PreEscaped = function(a) {
+  this.val = a
+};
+dalap.html.escape.PreEscaped.cljs$lang$type = !0;
+dalap.html.escape.PreEscaped.cljs$lang$ctorPrSeq = function() {
+  return cljs.core.list.call(null, "dalap.html.escape/PreEscaped")
+};
+dalap.html.escape.PreEscaped.cljs$lang$ctorPrWriter = function(a, b) {
+  return cljs.core._write.call(null, b, "dalap.html.escape/PreEscaped")
+};
+dalap.html.escape.PreEscaped.prototype.toString = function() {
+  return"" + cljs.core.str(this.val)
+};
+dalap.html.escape.PreEscaped;
+dalap.html.escape.safe = function() {
+  var a = function(a) {
+    return new dalap.html.escape.PreEscaped(cljs.core.apply.call(null, cljs.core.str, a))
+  }, b = function(b) {
+    var d = null;
+    goog.isDef(b) && (d = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0), 0));
+    return a.call(this, d)
+  };
+  b.cljs$lang$maxFixedArity = 0;
+  b.cljs$lang$applyTo = function(b) {
+    b = cljs.core.seq(b);
+    return a(b)
+  };
+  b.cljs$lang$arity$variadic = a;
+  return b
+}();
+dalap.html.escape._gen_str_escaper = function(a) {
+  return function() {
+    var b = null, c = function(b) {
+      return a.call(null, b)
+    }, d = function() {
+      var a = function(a, c) {
+        return function(a, c) {
+          for(;;) {
+            if(cljs.core.truth_(c)) {
+              var d = a.append(b.call(null, cljs.core.first.call(null, c))), e = cljs.core.next.call(null, c), a = d, c = e
+            }else {
+              return a.toString()
+            }
+          }
+        }.call(null, new goog.string.StringBuffer(b.call(null, a)), c)
+      }, c = function(b, c) {
+        var d = null;
+        goog.isDef(c) && (d = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1), 0));
+        return a.call(this, b, d)
+      };
+      c.cljs$lang$maxFixedArity = 1;
+      c.cljs$lang$applyTo = function(b) {
+        var c = cljs.core.first(b), b = cljs.core.rest(b);
+        return a(c, b)
+      };
+      c.cljs$lang$arity$variadic = a;
+      return c
+    }(), b = function(a, b) {
+      switch(arguments.length) {
+        case 0:
+          return"";
+        case 1:
+          return c.call(this, a);
+        default:
+          return d.cljs$lang$arity$variadic(a, cljs.core.array_seq(arguments, 1))
+      }
+      throw Error("Invalid arity: " + arguments.length);
+    };
+    b.cljs$lang$maxFixedArity = 1;
+    b.cljs$lang$applyTo = d.cljs$lang$applyTo;
+    b.cljs$lang$arity$0 = function() {
+      return""
+    };
+    b.cljs$lang$arity$1 = c;
+    b.cljs$lang$arity$variadic = d.cljs$lang$arity$variadic;
+    return b
+  }()
+};
+dalap.html.escape.html_escaping_map = cljs.core.PersistentArrayMap.fromArrays(["&", "<", ">", '"'], ["&amp;", "&lt;", "&gt;", "&quot;"]);
+dalap.html.escape._escape_html_chars = function(a) {
+  return clojure.string.escape.call(null, "" + cljs.core.str(a), dalap.html.escape.html_escaping_map)
+};
+dalap.html.escape.HtmlEscapable = {};
+dalap.html.escape._to_html_escaped_str = function(a) {
+  if(a ? a.dalap$html$escape$HtmlEscapable$_to_html_escaped_str$arity$1 : a) {
+    return a.dalap$html$escape$HtmlEscapable$_to_html_escaped_str$arity$1(a)
+  }
+  var b;
+  b = dalap.html.escape._to_html_escaped_str[goog.typeOf(null == a ? null : a)];
+  if(!b && (b = dalap.html.escape._to_html_escaped_str._, !b)) {
+    throw cljs.core.missing_protocol.call(null, "HtmlEscapable.-to-html-escaped-str", a);
+  }
+  return b.call(null, a)
+};
+dalap.html.escape.PreEscaped.prototype.dalap$html$escape$HtmlEscapable$ = !0;
+dalap.html.escape.PreEscaped.prototype.dalap$html$escape$HtmlEscapable$_to_html_escaped_str$arity$1 = function(a) {
+  return"" + cljs.core.str(a)
+};
+dalap.html.escape.HtmlEscapable["null"] = !0;
+dalap.html.escape._to_html_escaped_str["null"] = function() {
+  return""
+};
+dalap.html.escape.HtmlEscapable.string = !0;
+dalap.html.escape._to_html_escaped_str.string = function(a) {
+  return dalap.html.escape._escape_html_chars.call(null, a)
+};
+dalap.html.escape.escape_html = dalap.html.escape._gen_str_escaper.call(null, dalap.html.escape._to_html_escaped_str);
+dalap.test = {};
+dalap.test.html = {};
+dalap.test.html.escape_test = {};
+cljs.core.not_EQ_.call(null, "undefined", typeof exports) && (buster = require("buster"));
+buster.spec.describe("test gen str escaper", function() {
+  buster.spec.it("creates a `str` function successfully", function() {
+    var a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
+      return a.toString()
+    }).call(null, "abc", 123), "abc123"), b = cljs.core.truth_("should behave the same as `clojure.core/str`") ? [cljs.core.str("should behave the same as `clojure.core/str`"), cljs.core.str(". ")].join("") : "should behave the same as `clojure.core/str`";
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1200#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1200#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
+    7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "abc123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
+      return clojure.string.upper_case.call(null, a.toString())
+    }).call(null, "abc", 123), "ABC123");
+    b = cljs.core.truth_("should be uppercase version of `clojure.core/str`") ? [cljs.core.str("should be uppercase version of `clojure.core/str`"), cljs.core.str(". ")].join("") : "should be uppercase version of `clojure.core/str`";
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1201#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'upper-case", cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1201#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
+    7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "ABC123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    return null
+  });
+  return null
+});
+buster.spec.describe("test low level char escaping", function() {
+  buster.spec.it("check low level char escaping", function() {
+    for(var a = cljs.core.seq.call(null, dalap.html.escape.html_escaping_map);;) {
+      if(a) {
+        var b = cljs.core.first.call(null, a), c = cljs.core.nth.call(null, b, 0, null), d = cljs.core.nth.call(null, b, 1, null);
+        cljs.core.PersistentVector.fromArray([function() {
+          var a = cljs.core._EQ_.call(null, dalap.html.escape._escape_html_chars.call(null, c), d), b;
+          b = cljs.core.truth_("test lower-level escaper") ? [cljs.core.str("test lower-level escaper"), cljs.core.str(". ")].join("") : "test lower-level escaper";
+          return buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-escape-html-chars", "\ufdd1'k"), cljs.core.hash_map("\ufdd0'line", 8)), "\ufdd1'v"), cljs.core.hash_map("\ufdd0'line", 8))), cljs.core.str(", got "), cljs.core.str(a)].join(""))
+        }(), function() {
+          var a = cljs.core._EQ_.call(null, dalap.html.escape.escape_html.call(null, "" + cljs.core.str(c)), d), b;
+          b = cljs.core.truth_("test via HtmlEscapable protocol") ? [cljs.core.str("test via HtmlEscapable protocol"), cljs.core.str(". ")].join("") : "test via HtmlEscapable protocol";
+          return buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/escape-html", cljs.core.with_meta(cljs.core.list("\ufdd1'str", "\ufdd1'k"), cljs.core.hash_map("\ufdd0'line", 8))), cljs.core.hash_map("\ufdd0'line", 8)), "\ufdd1'v"), cljs.core.hash_map("\ufdd0'line", 8))), cljs.core.str(", got "), cljs.core.str(a)].join(""))
+        }()], !0);
+        a = cljs.core.next.call(null, a)
+      }else {
+        break
+      }
+    }
+    return null
+  });
+  return null
+});
+buster.spec.describe("test HtmlEscapable", function() {
+  buster.spec.it("check HtmlEscapable protocol", function() {
+    for(var a = cljs.core.seq.call(null, cljs.core.PersistentArrayMap.fromArrays([null, dalap.html.escape.safe.call(null, "&"), dalap.html.escape.safe.call(null, "&"), dalap.html.escape.safe.call(null, '&-<->-"'), "&", "abcd&e", '&-<->-"'], ' & & &-<->-" &amp; abcd&amp;e &amp;-&lt;-&gt;-&quot;'.split(" ")));;) {
+      if(a) {
+        var b = cljs.core.first.call(null, a), c = cljs.core.nth.call(null, b, 0, null);
+        cljs.core.nth.call(null, b, 1, null);
+        b = cljs.core._EQ_.call(null, dalap.html.escape._to_html_escaped_str.call(null, c), dalap.html.escape.escape_html.call(null, c));
+        c = cljs.core.truth_("`-to-html-escaped-str` should behave the same way as `escape-html`") ? [cljs.core.str("`-to-html-escaped-str` should behave the same way as `escape-html`"), cljs.core.str(". ")].join("") : "`-to-html-escaped-str` should behave the same way as `escape-html`";
+        buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-to-html-escaped-str", "\ufdd1'inp"), cljs.core.hash_map("\ufdd0'line", 9)), cljs.core.with_meta(cljs.core.list("\ufdd1'esc/escape-html", "\ufdd1'inp"), cljs.core.hash_map("\ufdd0'line", 9))), cljs.core.hash_map("\ufdd0'line", 9))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
+        a = cljs.core.next.call(null, a)
+      }else {
+        break
+      }
+    }
+    return null
+  });
+  return null
+});
+buster.spec.describe("test mixed pre escaped and not", function() {
+  buster.spec.it("check pre-escaped content with non-escaped content", function() {
+    var a = cljs.core._EQ_.call(null, dalap.html.escape.escape_html.call(null, dalap.html.escape.safe.call(null, '&-<->-"'), "-&->"), '&-<->-"-&amp;-&gt;'), b;
+    b = cljs.core.truth_("mixed pre-escaped and non-escaped should work interchangeably") ? [cljs.core.str("mixed pre-escaped and non-escaped should work interchangeably"), cljs.core.str(". ")].join("") : "mixed pre-escaped and non-escaped should work interchangeably";
+    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/escape-html", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/safe", '&-<->-"'), cljs.core.hash_map("\ufdd0'line", 10)), "-&->"), cljs.core.hash_map("\ufdd0'line", 10)), '&-<->-"-&amp;-&gt;'), cljs.core.hash_map("\ufdd0'line", 10))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
+    return null
+  });
+  return null
+});
+dalap.walk = {};
 dalap.walk.IWalkerState = {};
 dalap.walk.get_state = function(a) {
   if(a ? a.dalap$walk$IWalkerState$get_state$arity$1 : a) {
@@ -12931,231 +13173,138 @@ dalap.defaults.serialize = function() {
   a.cljs$lang$arity$3 = d;
   return a
 }();
-var clojure = {string:{}};
-clojure.string.seq_reverse = function(a) {
-  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
+goog.userAgent.ASSUME_IE = !1;
+goog.userAgent.ASSUME_GECKO = !1;
+goog.userAgent.ASSUME_WEBKIT = !1;
+goog.userAgent.ASSUME_MOBILE_WEBKIT = !1;
+goog.userAgent.ASSUME_OPERA = !1;
+goog.userAgent.BROWSER_KNOWN_ = goog.userAgent.ASSUME_IE || goog.userAgent.ASSUME_GECKO || goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_OPERA;
+goog.userAgent.getUserAgentString = function() {
+  return goog.global.navigator ? goog.global.navigator.userAgent : null
 };
-clojure.string.reverse = function(a) {
-  return a.split("").reverse().join("")
+goog.userAgent.getNavigator = function() {
+  return goog.global.navigator
 };
-clojure.string.replace = function(a, b, c) {
-  if(cljs.core.string_QMARK_.call(null, b)) {
-    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
-  }
-  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
-    return a.replace(RegExp(b.source, "g"), c)
-  }
-  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
-};
-clojure.string.replace_first = function(a, b, c) {
-  return a.replace(b, c)
-};
-clojure.string.join = function() {
-  var a = null, b = function(a) {
-    return cljs.core.apply.call(null, cljs.core.str, a)
-  }, c = function(a, b) {
-    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
-  }, a = function(a, e) {
-    switch(arguments.length) {
-      case 1:
-        return b.call(this, a);
-      case 2:
-        return c.call(this, a, e)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$1 = b;
-  a.cljs$lang$arity$2 = c;
-  return a
-}();
-clojure.string.upper_case = function(a) {
-  return a.toUpperCase()
-};
-clojure.string.lower_case = function(a) {
-  return a.toLowerCase()
-};
-clojure.string.capitalize = function(a) {
-  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
-};
-clojure.string.split = function() {
-  var a = null, b = function(a, b) {
-    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-  }, c = function(a, b, c) {
-    if(1 > c) {
-      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-    }
-    for(var g = cljs.core.PersistentVector.EMPTY;;) {
-      if(cljs.core._EQ_.call(null, c, 1)) {
-        return cljs.core.conj.call(null, g, a)
-      }
-      var h = cljs.core.re_find.call(null, b, a);
-      if(cljs.core.truth_(h)) {
-        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
-      }else {
-        return cljs.core.conj.call(null, g, a)
-      }
-    }
-  }, a = function(a, e, f) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, e);
-      case 3:
-        return c.call(this, a, e, f)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  return a
-}();
-clojure.string.split_lines = function(a) {
-  return clojure.string.split.call(null, a, /\n|\r\n/)
-};
-clojure.string.trim = function(a) {
-  return goog.string.trim(a)
-};
-clojure.string.triml = function(a) {
-  return goog.string.trimLeft(a)
-};
-clojure.string.trimr = function(a) {
-  return goog.string.trimRight(a)
-};
-clojure.string.trim_newline = function(a) {
-  for(var b = a.length;;) {
-    if(0 === b) {
-      return""
-    }
-    var c = cljs.core._lookup.call(null, a, b - 1, null);
-    var d = cljs.core._EQ_.call(null, c, "\n"), c = d ? d : cljs.core._EQ_.call(null, c, "\r");
-    if(c) {
-      b -= 1
-    }else {
-      return a.substring(0, b)
-    }
+goog.userAgent.init_ = function() {
+  goog.userAgent.detectedOpera_ = !1;
+  goog.userAgent.detectedIe_ = !1;
+  goog.userAgent.detectedWebkit_ = !1;
+  goog.userAgent.detectedMobile_ = !1;
+  goog.userAgent.detectedGecko_ = !1;
+  var a;
+  if(!goog.userAgent.BROWSER_KNOWN_ && (a = goog.userAgent.getUserAgentString())) {
+    var b = goog.userAgent.getNavigator();
+    goog.userAgent.detectedOpera_ = 0 == a.indexOf("Opera");
+    goog.userAgent.detectedIe_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("MSIE");
+    goog.userAgent.detectedWebkit_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("WebKit");
+    goog.userAgent.detectedMobile_ = goog.userAgent.detectedWebkit_ && -1 != a.indexOf("Mobile");
+    goog.userAgent.detectedGecko_ = !goog.userAgent.detectedOpera_ && !goog.userAgent.detectedWebkit_ && "Gecko" == b.product
   }
 };
-clojure.string.blank_QMARK_ = function(a) {
-  return goog.string.isEmptySafe(a)
+goog.userAgent.BROWSER_KNOWN_ || goog.userAgent.init_();
+goog.userAgent.OPERA = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_OPERA : goog.userAgent.detectedOpera_;
+goog.userAgent.IE = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_IE : goog.userAgent.detectedIe_;
+goog.userAgent.GECKO = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_GECKO : goog.userAgent.detectedGecko_;
+goog.userAgent.WEBKIT = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_MOBILE_WEBKIT : goog.userAgent.detectedWebkit_;
+goog.userAgent.MOBILE = goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.detectedMobile_;
+goog.userAgent.SAFARI = goog.userAgent.WEBKIT;
+goog.userAgent.determinePlatform_ = function() {
+  var a = goog.userAgent.getNavigator();
+  return a && a.platform || ""
 };
-clojure.string.escape = function(a, b) {
-  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
-    if(cljs.core._EQ_.call(null, d, e)) {
-      return c.toString()
-    }
-    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
-    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
-    e += 1
+goog.userAgent.PLATFORM = goog.userAgent.determinePlatform_();
+goog.userAgent.ASSUME_MAC = !1;
+goog.userAgent.ASSUME_WINDOWS = !1;
+goog.userAgent.ASSUME_LINUX = !1;
+goog.userAgent.ASSUME_X11 = !1;
+goog.userAgent.PLATFORM_KNOWN_ = goog.userAgent.ASSUME_MAC || goog.userAgent.ASSUME_WINDOWS || goog.userAgent.ASSUME_LINUX || goog.userAgent.ASSUME_X11;
+goog.userAgent.initPlatform_ = function() {
+  goog.userAgent.detectedMac_ = goog.string.contains(goog.userAgent.PLATFORM, "Mac");
+  goog.userAgent.detectedWindows_ = goog.string.contains(goog.userAgent.PLATFORM, "Win");
+  goog.userAgent.detectedLinux_ = goog.string.contains(goog.userAgent.PLATFORM, "Linux");
+  goog.userAgent.detectedX11_ = !!goog.userAgent.getNavigator() && goog.string.contains(goog.userAgent.getNavigator().appVersion || "", "X11")
+};
+goog.userAgent.PLATFORM_KNOWN_ || goog.userAgent.initPlatform_();
+goog.userAgent.MAC = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_MAC : goog.userAgent.detectedMac_;
+goog.userAgent.WINDOWS = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_WINDOWS : goog.userAgent.detectedWindows_;
+goog.userAgent.LINUX = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_LINUX : goog.userAgent.detectedLinux_;
+goog.userAgent.X11 = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_X11 : goog.userAgent.detectedX11_;
+goog.userAgent.determineVersion_ = function() {
+  var a = "", b;
+  goog.userAgent.OPERA && goog.global.opera ? (a = goog.global.opera.version, a = "function" == typeof a ? a() : a) : (goog.userAgent.GECKO ? b = /rv\:([^\);]+)(\)|;)/ : goog.userAgent.IE ? b = /MSIE\s+([^\);]+)(\)|;)/ : goog.userAgent.WEBKIT && (b = /WebKit\/(\S+)/), b && (a = (a = b.exec(goog.userAgent.getUserAgentString())) ? a[1] : ""));
+  return goog.userAgent.IE && (b = goog.userAgent.getDocumentMode_(), b > parseFloat(a)) ? "" + b : a
+};
+goog.userAgent.getDocumentMode_ = function() {
+  var a = goog.global.document;
+  return a ? a.documentMode : void 0
+};
+goog.userAgent.VERSION = goog.userAgent.determineVersion_();
+goog.userAgent.compare = function(a, b) {
+  return goog.string.compareVersions(a, b)
+};
+goog.userAgent.isVersionCache_ = {};
+goog.userAgent.isVersion = function(a) {
+  return goog.userAgent.isVersionCache_[a] || (goog.userAgent.isVersionCache_[a] = 0 <= goog.string.compareVersions(goog.userAgent.VERSION, a))
+};
+goog.userAgent.isDocumentModeCache_ = {};
+goog.userAgent.isDocumentMode = function(a) {
+  return goog.userAgent.isDocumentModeCache_[a] || (goog.userAgent.isDocumentModeCache_[a] = goog.userAgent.IE && document.documentMode && document.documentMode >= a)
+};
+goog.dom = {};
+goog.dom.BrowserFeature = {CAN_ADD_NAME_OR_TYPE_ATTRIBUTES:!goog.userAgent.IE || goog.userAgent.isDocumentMode(9), CAN_USE_CHILDREN_ATTRIBUTE:!goog.userAgent.GECKO && !goog.userAgent.IE || goog.userAgent.IE && goog.userAgent.isDocumentMode(9) || goog.userAgent.GECKO && goog.userAgent.isVersion("1.9.1"), CAN_USE_INNER_TEXT:goog.userAgent.IE && !goog.userAgent.isVersion("9"), INNER_HTML_NEEDS_SCOPED_ELEMENT:goog.userAgent.IE};
+goog.dom.classes = {};
+goog.dom.classes.set = function(a, b) {
+  a.className = b
+};
+goog.dom.classes.get = function(a) {
+  return(a = a.className) && "function" == typeof a.split ? a.split(/\s+/) : []
+};
+goog.dom.classes.add = function(a, b) {
+  var c = goog.dom.classes.get(a), d = goog.array.slice(arguments, 1), d = goog.dom.classes.add_(c, d);
+  a.className = c.join(" ");
+  return d
+};
+goog.dom.classes.remove = function(a, b) {
+  var c = goog.dom.classes.get(a), d = goog.array.slice(arguments, 1), d = goog.dom.classes.remove_(c, d);
+  a.className = c.join(" ");
+  return d
+};
+goog.dom.classes.add_ = function(a, b) {
+  for(var c = 0, d = 0;d < b.length;d++) {
+    goog.array.contains(a, b[d]) || (a.push(b[d]), c++)
   }
+  return c == b.length
 };
-dalap.html = {};
-dalap.html.escape = {};
-dalap.html.escape.PreEscaped = function(a) {
-  this.val = a
-};
-dalap.html.escape.PreEscaped.cljs$lang$type = !0;
-dalap.html.escape.PreEscaped.cljs$lang$ctorPrSeq = function() {
-  return cljs.core.list.call(null, "dalap.html.escape/PreEscaped")
-};
-dalap.html.escape.PreEscaped.cljs$lang$ctorPrWriter = function(a, b) {
-  return cljs.core._write.call(null, b, "dalap.html.escape/PreEscaped")
-};
-dalap.html.escape.PreEscaped.prototype.toString = function() {
-  return"" + cljs.core.str(this.val)
-};
-dalap.html.escape.PreEscaped;
-dalap.html.escape.safe = function() {
-  var a = function(a) {
-    return new dalap.html.escape.PreEscaped(cljs.core.apply.call(null, cljs.core.str, a))
-  }, b = function(b) {
-    var d = null;
-    goog.isDef(b) && (d = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0), 0));
-    return a.call(this, d)
-  };
-  b.cljs$lang$maxFixedArity = 0;
-  b.cljs$lang$applyTo = function(b) {
-    b = cljs.core.seq(b);
-    return a(b)
-  };
-  b.cljs$lang$arity$variadic = a;
-  return b
-}();
-dalap.html.escape._gen_str_escaper = function(a) {
-  return function() {
-    var b = null, c = function(b) {
-      return a.call(null, b)
-    }, d = function() {
-      var a = function(a, c) {
-        return function(a, c) {
-          for(;;) {
-            if(cljs.core.truth_(c)) {
-              var d = a.append(b.call(null, cljs.core.first.call(null, c))), e = cljs.core.next.call(null, c), a = d, c = e
-            }else {
-              return a.toString()
-            }
-          }
-        }.call(null, new goog.string.StringBuffer(b.call(null, a)), c)
-      }, c = function(b, c) {
-        var d = null;
-        goog.isDef(c) && (d = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1), 0));
-        return a.call(this, b, d)
-      };
-      c.cljs$lang$maxFixedArity = 1;
-      c.cljs$lang$applyTo = function(b) {
-        var c = cljs.core.first(b), b = cljs.core.rest(b);
-        return a(c, b)
-      };
-      c.cljs$lang$arity$variadic = a;
-      return c
-    }(), b = function(a, b) {
-      switch(arguments.length) {
-        case 0:
-          return"";
-        case 1:
-          return c.call(this, a);
-        default:
-          return d.cljs$lang$arity$variadic(a, cljs.core.array_seq(arguments, 1))
-      }
-      throw Error("Invalid arity: " + arguments.length);
-    };
-    b.cljs$lang$maxFixedArity = 1;
-    b.cljs$lang$applyTo = d.cljs$lang$applyTo;
-    b.cljs$lang$arity$0 = function() {
-      return""
-    };
-    b.cljs$lang$arity$1 = c;
-    b.cljs$lang$arity$variadic = d.cljs$lang$arity$variadic;
-    return b
-  }()
-};
-dalap.html.escape.html_escaping_map = cljs.core.PersistentArrayMap.fromArrays(["&", "<", ">", '"'], ["&amp;", "&lt;", "&gt;", "&quot;"]);
-dalap.html.escape._escape_html_chars = function(a) {
-  return clojure.string.escape.call(null, "" + cljs.core.str(a), dalap.html.escape.html_escaping_map)
-};
-dalap.html.escape.HtmlEscapable = {};
-dalap.html.escape._to_html_escaped_str = function(a) {
-  if(a ? a.dalap$html$escape$HtmlEscapable$_to_html_escaped_str$arity$1 : a) {
-    return a.dalap$html$escape$HtmlEscapable$_to_html_escaped_str$arity$1(a)
+goog.dom.classes.remove_ = function(a, b) {
+  for(var c = 0, d = 0;d < a.length;d++) {
+    goog.array.contains(b, a[d]) && (goog.array.splice(a, d--, 1), c++)
   }
-  var b;
-  b = dalap.html.escape._to_html_escaped_str[goog.typeOf(null == a ? null : a)];
-  if(!b && (b = dalap.html.escape._to_html_escaped_str._, !b)) {
-    throw cljs.core.missing_protocol.call(null, "HtmlEscapable.-to-html-escaped-str", a);
+  return c == b.length
+};
+goog.dom.classes.swap = function(a, b, c) {
+  for(var d = goog.dom.classes.get(a), e = !1, f = 0;f < d.length;f++) {
+    d[f] == b && (goog.array.splice(d, f--, 1), e = !0)
   }
-  return b.call(null, a)
+  e && (d.push(c), a.className = d.join(" "));
+  return e
 };
-dalap.html.escape.PreEscaped.prototype.dalap$html$escape$HtmlEscapable$ = !0;
-dalap.html.escape.PreEscaped.prototype.dalap$html$escape$HtmlEscapable$_to_html_escaped_str$arity$1 = function(a) {
-  return"" + cljs.core.str(a)
+goog.dom.classes.addRemove = function(a, b, c) {
+  var d = goog.dom.classes.get(a);
+  goog.isString(b) ? goog.array.remove(d, b) : goog.isArray(b) && goog.dom.classes.remove_(d, b);
+  goog.isString(c) && !goog.array.contains(d, c) ? d.push(c) : goog.isArray(c) && goog.dom.classes.add_(d, c);
+  a.className = d.join(" ")
 };
-dalap.html.escape.HtmlEscapable["null"] = !0;
-dalap.html.escape._to_html_escaped_str["null"] = function() {
-  return""
+goog.dom.classes.has = function(a, b) {
+  return goog.array.contains(goog.dom.classes.get(a), b)
 };
-dalap.html.escape.HtmlEscapable.string = !0;
-dalap.html.escape._to_html_escaped_str.string = function(a) {
-  return dalap.html.escape._escape_html_chars.call(null, a)
+goog.dom.classes.enable = function(a, b, c) {
+  c ? goog.dom.classes.add(a, b) : goog.dom.classes.remove(a, b)
 };
-dalap.html.escape.escape_html = dalap.html.escape._gen_str_escaper.call(null, dalap.html.escape._to_html_escaped_str);
+goog.dom.classes.toggle = function(a, b) {
+  var c = !goog.dom.classes.has(a, b);
+  goog.dom.classes.enable(a, b, c);
+  return c
+};
 clojure.set = {};
 clojure.set.bubble_max_key = function(a, b) {
   var c = cljs.core.apply.call(null, cljs.core.max_key, a, b);
@@ -13757,84 +13906,6 @@ dalap.html.html5 = function() {
   b.cljs$lang$arity$variadic = a;
   return b
 }();
-goog.userAgent.ASSUME_IE = !1;
-goog.userAgent.ASSUME_GECKO = !1;
-goog.userAgent.ASSUME_WEBKIT = !1;
-goog.userAgent.ASSUME_MOBILE_WEBKIT = !1;
-goog.userAgent.ASSUME_OPERA = !1;
-goog.userAgent.BROWSER_KNOWN_ = goog.userAgent.ASSUME_IE || goog.userAgent.ASSUME_GECKO || goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_OPERA;
-goog.userAgent.getUserAgentString = function() {
-  return goog.global.navigator ? goog.global.navigator.userAgent : null
-};
-goog.userAgent.getNavigator = function() {
-  return goog.global.navigator
-};
-goog.userAgent.init_ = function() {
-  goog.userAgent.detectedOpera_ = !1;
-  goog.userAgent.detectedIe_ = !1;
-  goog.userAgent.detectedWebkit_ = !1;
-  goog.userAgent.detectedMobile_ = !1;
-  goog.userAgent.detectedGecko_ = !1;
-  var a;
-  if(!goog.userAgent.BROWSER_KNOWN_ && (a = goog.userAgent.getUserAgentString())) {
-    var b = goog.userAgent.getNavigator();
-    goog.userAgent.detectedOpera_ = 0 == a.indexOf("Opera");
-    goog.userAgent.detectedIe_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("MSIE");
-    goog.userAgent.detectedWebkit_ = !goog.userAgent.detectedOpera_ && -1 != a.indexOf("WebKit");
-    goog.userAgent.detectedMobile_ = goog.userAgent.detectedWebkit_ && -1 != a.indexOf("Mobile");
-    goog.userAgent.detectedGecko_ = !goog.userAgent.detectedOpera_ && !goog.userAgent.detectedWebkit_ && "Gecko" == b.product
-  }
-};
-goog.userAgent.BROWSER_KNOWN_ || goog.userAgent.init_();
-goog.userAgent.OPERA = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_OPERA : goog.userAgent.detectedOpera_;
-goog.userAgent.IE = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_IE : goog.userAgent.detectedIe_;
-goog.userAgent.GECKO = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_GECKO : goog.userAgent.detectedGecko_;
-goog.userAgent.WEBKIT = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_MOBILE_WEBKIT : goog.userAgent.detectedWebkit_;
-goog.userAgent.MOBILE = goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.detectedMobile_;
-goog.userAgent.SAFARI = goog.userAgent.WEBKIT;
-goog.userAgent.determinePlatform_ = function() {
-  var a = goog.userAgent.getNavigator();
-  return a && a.platform || ""
-};
-goog.userAgent.PLATFORM = goog.userAgent.determinePlatform_();
-goog.userAgent.ASSUME_MAC = !1;
-goog.userAgent.ASSUME_WINDOWS = !1;
-goog.userAgent.ASSUME_LINUX = !1;
-goog.userAgent.ASSUME_X11 = !1;
-goog.userAgent.PLATFORM_KNOWN_ = goog.userAgent.ASSUME_MAC || goog.userAgent.ASSUME_WINDOWS || goog.userAgent.ASSUME_LINUX || goog.userAgent.ASSUME_X11;
-goog.userAgent.initPlatform_ = function() {
-  goog.userAgent.detectedMac_ = goog.string.contains(goog.userAgent.PLATFORM, "Mac");
-  goog.userAgent.detectedWindows_ = goog.string.contains(goog.userAgent.PLATFORM, "Win");
-  goog.userAgent.detectedLinux_ = goog.string.contains(goog.userAgent.PLATFORM, "Linux");
-  goog.userAgent.detectedX11_ = !!goog.userAgent.getNavigator() && goog.string.contains(goog.userAgent.getNavigator().appVersion || "", "X11")
-};
-goog.userAgent.PLATFORM_KNOWN_ || goog.userAgent.initPlatform_();
-goog.userAgent.MAC = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_MAC : goog.userAgent.detectedMac_;
-goog.userAgent.WINDOWS = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_WINDOWS : goog.userAgent.detectedWindows_;
-goog.userAgent.LINUX = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_LINUX : goog.userAgent.detectedLinux_;
-goog.userAgent.X11 = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_X11 : goog.userAgent.detectedX11_;
-goog.userAgent.determineVersion_ = function() {
-  var a = "", b;
-  goog.userAgent.OPERA && goog.global.opera ? (a = goog.global.opera.version, a = "function" == typeof a ? a() : a) : (goog.userAgent.GECKO ? b = /rv\:([^\);]+)(\)|;)/ : goog.userAgent.IE ? b = /MSIE\s+([^\);]+)(\)|;)/ : goog.userAgent.WEBKIT && (b = /WebKit\/(\S+)/), b && (a = (a = b.exec(goog.userAgent.getUserAgentString())) ? a[1] : ""));
-  return goog.userAgent.IE && (b = goog.userAgent.getDocumentMode_(), b > parseFloat(a)) ? "" + b : a
-};
-goog.userAgent.getDocumentMode_ = function() {
-  var a = goog.global.document;
-  return a ? a.documentMode : void 0
-};
-goog.userAgent.VERSION = goog.userAgent.determineVersion_();
-goog.userAgent.compare = function(a, b) {
-  return goog.string.compareVersions(a, b)
-};
-goog.userAgent.isVersionCache_ = {};
-goog.userAgent.isVersion = function(a) {
-  return goog.userAgent.isVersionCache_[a] || (goog.userAgent.isVersionCache_[a] = 0 <= goog.string.compareVersions(goog.userAgent.VERSION, a))
-};
-goog.userAgent.isDocumentModeCache_ = {};
-goog.userAgent.isDocumentMode = function(a) {
-  return goog.userAgent.isDocumentModeCache_[a] || (goog.userAgent.isDocumentModeCache_[a] = goog.userAgent.IE && document.documentMode && document.documentMode >= a)
-};
-goog.dom.BrowserFeature = {CAN_ADD_NAME_OR_TYPE_ATTRIBUTES:!goog.userAgent.IE || goog.userAgent.isDocumentMode(9), CAN_USE_CHILDREN_ATTRIBUTE:!goog.userAgent.GECKO && !goog.userAgent.IE || goog.userAgent.IE && goog.userAgent.isDocumentMode(9) || goog.userAgent.GECKO && goog.userAgent.isVersion("1.9.1"), CAN_USE_INNER_TEXT:goog.userAgent.IE && !goog.userAgent.isVersion("9"), INNER_HTML_NEEDS_SCOPED_ELEMENT:goog.userAgent.IE};
 goog.dom.TagName = {A:"A", ABBR:"ABBR", ACRONYM:"ACRONYM", ADDRESS:"ADDRESS", APPLET:"APPLET", AREA:"AREA", B:"B", BASE:"BASE", BASEFONT:"BASEFONT", BDO:"BDO", BIG:"BIG", BLOCKQUOTE:"BLOCKQUOTE", BODY:"BODY", BR:"BR", BUTTON:"BUTTON", CANVAS:"CANVAS", CAPTION:"CAPTION", CENTER:"CENTER", CITE:"CITE", CODE:"CODE", COL:"COL", COLGROUP:"COLGROUP", DD:"DD", DEL:"DEL", DFN:"DFN", DIR:"DIR", DIV:"DIV", DL:"DL", DT:"DT", EM:"EM", FIELDSET:"FIELDSET", FONT:"FONT", FORM:"FORM", FRAME:"FRAME", FRAMESET:"FRAMESET", 
 H1:"H1", H2:"H2", H3:"H3", H4:"H4", H5:"H5", H6:"H6", HEAD:"HEAD", HR:"HR", HTML:"HTML", I:"I", IFRAME:"IFRAME", IMG:"IMG", INPUT:"INPUT", INS:"INS", ISINDEX:"ISINDEX", KBD:"KBD", LABEL:"LABEL", LEGEND:"LEGEND", LI:"LI", LINK:"LINK", MAP:"MAP", MENU:"MENU", META:"META", NOFRAMES:"NOFRAMES", NOSCRIPT:"NOSCRIPT", OBJECT:"OBJECT", OL:"OL", OPTGROUP:"OPTGROUP", OPTION:"OPTION", P:"P", PARAM:"PARAM", PRE:"PRE", Q:"Q", S:"S", SAMP:"SAMP", SCRIPT:"SCRIPT", SELECT:"SELECT", SMALL:"SMALL", SPAN:"SPAN", STRIKE:"STRIKE", 
 STRONG:"STRONG", STYLE:"STYLE", SUB:"SUB", SUP:"SUP", TABLE:"TABLE", TBODY:"TBODY", TD:"TD", TEXTAREA:"TEXTAREA", TFOOT:"TFOOT", TH:"TH", THEAD:"THEAD", TITLE:"TITLE", TR:"TR", TT:"TT", U:"U", UL:"UL", VAR:"VAR"};
@@ -14597,7 +14668,6 @@ goog.dom.DomHelper.prototype.getNodeTextOffset = goog.dom.getNodeTextOffset;
 goog.dom.DomHelper.prototype.getAncestorByTagNameAndClass = goog.dom.getAncestorByTagNameAndClass;
 goog.dom.DomHelper.prototype.getAncestorByClass = goog.dom.getAncestorByClass;
 goog.dom.DomHelper.prototype.getAncestor = goog.dom.getAncestor;
-dalap.test = {};
 dalap.test.html_test = {};
 cljs.core.not_EQ_.call(null, "undefined", typeof exports) && (buster = require("buster"));
 dalap.test.html_test.basic_sample_data = cljs.core.PersistentVector.fromArray([1, 2, 3, "abc", "x", " ", 1.2, " ", "\ufdd1'foo", "\ufdd0'bar", null, null, cljs.core.PersistentVector.fromArray([null], !0)], !0);
@@ -14762,76 +14832,6 @@ buster.spec.describe("test basic types", function() {
   });
   buster.spec.it("keywords are escaped correctly", function() {
     dalap.test.html_test.assert_html.call(null, cljs.core.PersistentVector.fromArray(["", "\ufdd0'ti&tle", 'fo"o'], !0), ":ti&amp;tlefo&quot;o", "the keyword above should be HTML escaped");
-    return null
-  });
-  return null
-});
-dalap.html.test = {};
-dalap.html.test.escape_test = {};
-cljs.core.not_EQ_.call(null, "undefined", typeof exports) && (buster = require("buster"));
-buster.spec.describe("test gen str escaper", function() {
-  buster.spec.it("creates a `str` function successfully", function() {
-    var a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
-      return a.toString()
-    }).call(null, "abc", 123), "abc123"), b = cljs.core.truth_("should behave the same as `clojure.core/str`") ? [cljs.core.str("should behave the same as `clojure.core/str`"), cljs.core.str(". ")].join("") : "should behave the same as `clojure.core/str`";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1200#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1200#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
-    7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "abc123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
-    a = cljs.core._EQ_.call(null, dalap.html.escape._gen_str_escaper.call(null, function(a) {
-      return clojure.string.upper_case.call(null, a.toString())
-    }).call(null, "abc", 123), "ABC123");
-    b = cljs.core.truth_("should be uppercase version of `clojure.core/str`") ? [cljs.core.str("should be uppercase version of `clojure.core/str`"), cljs.core.str(". ")].join("") : "should be uppercase version of `clojure.core/str`";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-gen-str-escaper", cljs.core.with_meta(cljs.core.list("\ufdd1'fn*", cljs.core.vec(["\ufdd1'p1__1201#"]), cljs.core.with_meta(cljs.core.list("\ufdd1'upper-case", cljs.core.with_meta(cljs.core.list("\ufdd1'.toString", "\ufdd1'p1__1201#"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 
-    7))), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.hash_map("\ufdd0'line", 7)), "abc", 123), cljs.core.hash_map("\ufdd0'line", 7)), "ABC123"), cljs.core.hash_map("\ufdd0'line", 7))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
-    return null
-  });
-  return null
-});
-buster.spec.describe("test low level char escaping", function() {
-  buster.spec.it("check low level char escaping", function() {
-    for(var a = cljs.core.seq.call(null, dalap.html.escape.html_escaping_map);;) {
-      if(a) {
-        var b = cljs.core.first.call(null, a), c = cljs.core.nth.call(null, b, 0, null), d = cljs.core.nth.call(null, b, 1, null);
-        cljs.core.PersistentVector.fromArray([function() {
-          var a = cljs.core._EQ_.call(null, dalap.html.escape._escape_html_chars.call(null, c), d), b;
-          b = cljs.core.truth_("test lower-level escaper") ? [cljs.core.str("test lower-level escaper"), cljs.core.str(". ")].join("") : "test lower-level escaper";
-          return buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-escape-html-chars", "\ufdd1'k"), cljs.core.hash_map("\ufdd0'line", 8)), "\ufdd1'v"), cljs.core.hash_map("\ufdd0'line", 8))), cljs.core.str(", got "), cljs.core.str(a)].join(""))
-        }(), function() {
-          var a = cljs.core._EQ_.call(null, dalap.html.escape.escape_html.call(null, "" + cljs.core.str(c)), d), b;
-          b = cljs.core.truth_("test via HtmlEscapable protocol") ? [cljs.core.str("test via HtmlEscapable protocol"), cljs.core.str(". ")].join("") : "test via HtmlEscapable protocol";
-          return buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/escape-html", cljs.core.with_meta(cljs.core.list("\ufdd1'str", "\ufdd1'k"), cljs.core.hash_map("\ufdd0'line", 8))), cljs.core.hash_map("\ufdd0'line", 8)), "\ufdd1'v"), cljs.core.hash_map("\ufdd0'line", 8))), cljs.core.str(", got "), cljs.core.str(a)].join(""))
-        }()], !0);
-        a = cljs.core.next.call(null, a)
-      }else {
-        break
-      }
-    }
-    return null
-  });
-  return null
-});
-buster.spec.describe("test HtmlEscapable", function() {
-  buster.spec.it("check HtmlEscapable protocol", function() {
-    for(var a = cljs.core.seq.call(null, cljs.core.PersistentArrayMap.fromArrays([null, dalap.html.escape.safe.call(null, "&"), dalap.html.escape.safe.call(null, "&"), dalap.html.escape.safe.call(null, '&-<->-"'), "&", "abcd&e", '&-<->-"'], ' & & &-<->-" &amp; abcd&amp;e &amp;-&lt;-&gt;-&quot;'.split(" ")));;) {
-      if(a) {
-        var b = cljs.core.first.call(null, a), c = cljs.core.nth.call(null, b, 0, null);
-        cljs.core.nth.call(null, b, 1, null);
-        b = cljs.core._EQ_.call(null, dalap.html.escape._to_html_escaped_str.call(null, c), dalap.html.escape.escape_html.call(null, c));
-        c = cljs.core.truth_("`-to-html-escaped-str` should behave the same way as `escape-html`") ? [cljs.core.str("`-to-html-escaped-str` should behave the same way as `escape-html`"), cljs.core.str(". ")].join("") : "`-to-html-escaped-str` should behave the same way as `escape-html`";
-        buster.assert(b, [cljs.core.str(c), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/-to-html-escaped-str", "\ufdd1'inp"), cljs.core.hash_map("\ufdd0'line", 9)), cljs.core.with_meta(cljs.core.list("\ufdd1'esc/escape-html", "\ufdd1'inp"), cljs.core.hash_map("\ufdd0'line", 9))), cljs.core.hash_map("\ufdd0'line", 9))), cljs.core.str(", got "), cljs.core.str(b)].join(""));
-        a = cljs.core.next.call(null, a)
-      }else {
-        break
-      }
-    }
-    return null
-  });
-  return null
-});
-buster.spec.describe("test mixed pre escaped and not", function() {
-  buster.spec.it("check pre-escaped content with non-escaped content", function() {
-    var a = cljs.core._EQ_.call(null, dalap.html.escape.escape_html.call(null, dalap.html.escape.safe.call(null, '&-<->-"'), "-&->"), '&-<->-"-&amp;-&gt;'), b;
-    b = cljs.core.truth_("mixed pre-escaped and non-escaped should work interchangeably") ? [cljs.core.str("mixed pre-escaped and non-escaped should work interchangeably"), cljs.core.str(". ")].join("") : "mixed pre-escaped and non-escaped should work interchangeably";
-    buster.assert(a, [cljs.core.str(b), cljs.core.str("Expected "), cljs.core.str(cljs.core.with_meta(cljs.core.list("\ufdd1'=", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/escape-html", cljs.core.with_meta(cljs.core.list("\ufdd1'esc/safe", '&-<->-"'), cljs.core.hash_map("\ufdd0'line", 10)), "-&->"), cljs.core.hash_map("\ufdd0'line", 10)), '&-<->-"-&amp;-&gt;'), cljs.core.hash_map("\ufdd0'line", 10))), cljs.core.str(", got "), cljs.core.str(a)].join(""));
     return null
   });
   return null

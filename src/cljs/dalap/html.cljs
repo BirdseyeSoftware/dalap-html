@@ -1,6 +1,6 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; src/clj/dalap/html.clj @ Tue Dec 11 23:41:56 UTC 2012
+;; src/clj/dalap/html.clj @ Wed Dec 12 01:21:42 UTC 2012
 ;;
 (ns dalap.html (:require [clojure.set :refer [union]] [clojure.string :refer [split]] [dalap.walk :as walk] [dalap.html.escape :refer [PreEscaped safe escape-html]] [dalap.defaults :as defaults]) (:require-macros [clojure.core.match.js :refer [match]]))
 (defn -make-set [x] (cond (nil? x) (sorted-set) (sequential? x) (apply sorted-set x) :else (sorted-set x)))

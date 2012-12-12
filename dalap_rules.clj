@@ -8,10 +8,10 @@
  ["src/clj/dalap/html.clj" "src/cljs/dalap/html.cljs"]
  []
 
- ["test/clj/dalap/html/test/escape_test.clj" "test/cljs/dalap/html/test/escape_test.cljs"]
+ ["test/clj/dalap/test/html/escape_test.clj" "test/cljs/dalap/test/html/escape_test.cljs"]
  []
- 
+
  ["test/clj/dalap/test/html_test.clj" "test/cljs/dalap/test/html_test.cljs"]
  []
- 
+
 }

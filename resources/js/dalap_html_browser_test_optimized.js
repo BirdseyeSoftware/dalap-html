@@ -6388,92 +6388,7 @@ p.toString = function() {
   return N.e(G([this], 0))
 };
 Bf;
-function Cf(a, b) {
-  this.Gb = a;
-  this.Sa = b;
-  this.p = 0;
-  this.l = 257
-}
-Cf.prototype.w = function(a, b) {
-  return this.Sa.b ? this.Sa.b(b) : this.Sa.call(j, b)
-};
-Cf.prototype.r = function(a, b, c) {
-  return this.Sa.a ? this.Sa.a(b, c) : this.Sa.call(j, b, c)
-};
-Cf.prototype.call = function(a, b) {
-  return this.Gb.a ? this.Gb.a(b, this) : this.Gb.call(j, b, this)
-};
-Cf.prototype.apply = function(a, b) {
-  return a.call.apply(a, [a].concat(b.slice()))
-};
-Cf;
-var Df = function() {
-  function a(a, b) {
-    return new Cf(a, b)
-  }
-  function b(a) {
-    return c.a(a, Zd)
-  }
-  var c = j, c = function(c, f) {
-    switch(arguments.length) {
-      case 1:
-        return b.call(this, c);
-      case 2:
-        return a.call(this, c, f)
-    }
-    e(Error("Invalid arity: " + arguments.length))
-  };
-  c.b = b;
-  c.a = a;
-  return c
-}(), Ef = function() {
-  function a(a, b, c) {
-    return Df.a(b, c).call(j, a)
-  }
-  function b(a, b) {
-    return c.c(a, b, Zd)
-  }
-  var c = j, c = function(c, f, h) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, c, f);
-      case 3:
-        return a.call(this, c, f, h)
-    }
-    e(Error("Invalid arity: " + arguments.length))
-  };
-  c.a = b;
-  c.c = a;
-  return c
-}();
-var Ff = {};
-function Gf(a, b) {
-  if(a ? a.$b : a) {
-    return a.$b(a, b)
-  }
-  var c;
-  var d = Gf[q(a == j ? j : a)];
-  d ? c = d : (d = Gf._) ? c = d : e(w("Serializable.visit", a));
-  return c.call(j, a, b)
-}
-Ff.number = g;
-Gf.number = function(a) {
-  return"" + Q(a)
-};
-Ff.string = g;
-Gf.string = ba();
-Ff["null"] = g;
-Gf["null"] = o("");
-Ff._ = g;
-Gf._ = function(a, b) {
-  var c;
-  c = a ? ((c = a.l & 64) ? c : a.fb) ? g : a.l ? m : u(Ea, a) : u(Ea, a);
-  if(c) {
-    return rc.a(b, a)
-  }
-  e(w(Ff, a))
-};
-var Hf = function() {
+var Cf = function() {
   function a(a, b, c) {
     if(1 > c) {
       return U(("" + Q(a)).split(b))
@@ -6513,8 +6428,8 @@ var Hf = function() {
   c.c = a;
   return c
 }();
-function If(a) {
-  for(var b = Jf, c = new ua, d = a.length, f = 0;;) {
+function Df(a) {
+  for(var b = Ef, c = new ua, d = a.length, f = 0;;) {
     if(H.a(d, f)) {
       return c.toString()
     }
@@ -6523,21 +6438,21 @@ function If(a) {
     f += 1
   }
 }
-;function Kf(a) {
+;function Ff(a) {
   this.n = a
 }
-Kf.prototype.toString = function() {
+Ff.prototype.toString = function() {
   return"" + Q(this.n)
 };
-Kf;
-var Lf = function() {
+Ff;
+var Gf = function() {
   function a(a) {
     var d = j;
     r(a) && (d = G(Array.prototype.slice.call(arguments, 0), 0));
     return b.call(this, d)
   }
   function b(a) {
-    return new Kf(sc.a(Q, a))
+    return new Ff(sc.a(Q, a))
   }
   a.o = 0;
   a.m = function(a) {
@@ -6547,7 +6462,7 @@ var Lf = function() {
   a.e = b;
   return a
 }();
-function Mf(a) {
+function Hf(a) {
   return function() {
     function b(b) {
       return a.b ? a.b(b) : a.call(j, b)
@@ -6598,31 +6513,234 @@ function Mf(a) {
     return c
   }()
 }
-var Jf = he(["&", "<", ">", '"'], ["&amp;", "&lt;", "&gt;", "&quot;"]);
-function Nf(a) {
+var Ef = he(["&", "<", ">", '"'], ["&amp;", "&lt;", "&gt;", "&quot;"]);
+function If(a) {
   if(a ? a.Ub : a) {
     return a.Ub(a)
   }
   var b;
-  var c = Nf[q(a == j ? j : a)];
-  c ? b = c : (c = Nf._) ? b = c : e(w("HtmlEscapable.-to-html-escaped-str", a));
+  var c = If[q(a == j ? j : a)];
+  c ? b = c : (c = If._) ? b = c : e(w("HtmlEscapable.-to-html-escaped-str", a));
   return b.call(j, a)
 }
-Kf.prototype.Ub = function(a) {
+Ff.prototype.Ub = function(a) {
   return"" + Q(a)
 };
-Nf["null"] = o("");
-Nf.string = function(a) {
-  return If("" + Q(a))
+If["null"] = o("");
+If.string = function(a) {
+  return Df("" + Q(a))
 };
-var Of = Mf(Nf);
-function Pf(a, b) {
+var Jf = Hf(If);
+Uc.a("undefined", typeof exports) && (buster = require("buster"));
+buster.spec.describe("test gen str escaper", function() {
+  buster.spec.it("creates a `str` function successfully", function() {
+    var a = H.a(Hf(function(a) {
+      return a.toString()
+    }).call(j, "abc", 123), "abc123"), b = s("should behave the same as `clojure.core/str`") ? [Q("should behave the same as `clojure.core/str`"), Q(". ")].join("") : "should behave the same as `clojure.core/str`";
+    buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L(O(L("\ufdd1'esc/-gen-str-escaper", O(L("\ufdd1'fn*", U(["\ufdd1'p1__1200#"]), O(L("\ufdd1'.toString", "\ufdd1'p1__1200#"), J("\ufdd0'line", 7))), J("\ufdd0'line", 7))), J("\ufdd0'line", 7)), "abc", 123), J("\ufdd0'line", 7)), "abc123"), J("\ufdd0'line", 7))), Q(", got "), Q(a)].join(""));
+    a = H.a(Hf(function(a) {
+      return a.toString().toUpperCase()
+    }).call(j, "abc", 123), "ABC123");
+    b = s("should be uppercase version of `clojure.core/str`") ? [Q("should be uppercase version of `clojure.core/str`"), Q(". ")].join("") : "should be uppercase version of `clojure.core/str`";
+    buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L(O(L("\ufdd1'esc/-gen-str-escaper", O(L("\ufdd1'fn*", U(["\ufdd1'p1__1201#"]), O(L("\ufdd1'upper-case", O(L("\ufdd1'.toString", "\ufdd1'p1__1201#"), J("\ufdd0'line", 7))), J("\ufdd0'line", 7))), J("\ufdd0'line", 7))), J("\ufdd0'line", 7)), "abc", 123), J("\ufdd0'line", 7)), "ABC123"), J("\ufdd0'line", 7))), Q(", got "), Q(a)].join(""));
+    return j
+  });
+  return j
+});
+buster.spec.describe("test low level char escaping", function() {
+  buster.spec.it("check low level char escaping", function() {
+    for(var a = B(Ef);;) {
+      if(a) {
+        var b = C(a), c = Mb.c(b, 0, j), d = Mb.c(b, 1, j);
+        T([function() {
+          var a = H.a(Df("" + Q(c)), d), b = s("test lower-level escaper") ? [Q("test lower-level escaper"), Q(". ")].join("") : "test lower-level escaper";
+          return buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/-escape-html-chars", "\ufdd1'k"), J("\ufdd0'line", 8)), "\ufdd1'v"), J("\ufdd0'line", 8))), Q(", got "), Q(a)].join(""))
+        }(), function() {
+          var a = H.a(Jf.b ? Jf.b("" + Q(c)) : Jf.call(j, "" + Q(c)), d), b = s("test via HtmlEscapable protocol") ? [Q("test via HtmlEscapable protocol"), Q(". ")].join("") : "test via HtmlEscapable protocol";
+          return buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/escape-html", O(L("\ufdd1'str", "\ufdd1'k"), J("\ufdd0'line", 8))), J("\ufdd0'line", 8)), "\ufdd1'v"), J("\ufdd0'line", 8))), Q(", got "), Q(a)].join(""))
+        }()]);
+        a = F(a)
+      }else {
+        break
+      }
+    }
+    return j
+  });
+  return j
+});
+buster.spec.describe("test HtmlEscapable", function() {
+  buster.spec.it("check HtmlEscapable protocol", function() {
+    for(var a = B(he([j, Gf.e(G(["&"], 0)), Gf.e(G(["&"], 0)), Gf.e(G(['&-<->-"'], 0)), "&", "abcd&e", '&-<->-"'], ' & & &-<->-" &amp; abcd&amp;e &amp;-&lt;-&gt;-&quot;'.split(" ")));;) {
+      if(a) {
+        var b = C(a), c = Mb.c(b, 0, j);
+        Mb.c(b, 1, j);
+        b = H.a(If(c), Jf.b ? Jf.b(c) : Jf.call(j, c));
+        c = s("`-to-html-escaped-str` should behave the same way as `escape-html`") ? [Q("`-to-html-escaped-str` should behave the same way as `escape-html`"), Q(". ")].join("") : "`-to-html-escaped-str` should behave the same way as `escape-html`";
+        buster.assert(b, [Q(c), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/-to-html-escaped-str", "\ufdd1'inp"), J("\ufdd0'line", 9)), O(L("\ufdd1'esc/escape-html", "\ufdd1'inp"), J("\ufdd0'line", 9))), J("\ufdd0'line", 9))), Q(", got "), Q(b)].join(""));
+        a = F(a)
+      }else {
+        break
+      }
+    }
+    return j
+  });
+  return j
+});
+buster.spec.describe("test mixed pre escaped and not", function() {
+  buster.spec.it("check pre-escaped content with non-escaped content", function() {
+    var a = H.a(Jf.a ? Jf.a(Gf.e(G(['&-<->-"'], 0)), "-&->") : Jf.call(j, Gf.e(G(['&-<->-"'], 0)), "-&->"), '&-<->-"-&amp;-&gt;'), b = s("mixed pre-escaped and non-escaped should work interchangeably") ? [Q("mixed pre-escaped and non-escaped should work interchangeably"), Q(". ")].join("") : "mixed pre-escaped and non-escaped should work interchangeably";
+    buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/escape-html", O(L("\ufdd1'esc/safe", '&-<->-"'), J("\ufdd0'line", 10)), "-&->"), J("\ufdd0'line", 10)), '&-<->-"-&amp;-&gt;'), J("\ufdd0'line", 10))), Q(", got "), Q(a)].join(""));
+    return j
+  });
+  return j
+});
+function Kf(a, b) {
+  this.Gb = a;
+  this.Sa = b;
+  this.p = 0;
+  this.l = 257
+}
+Kf.prototype.w = function(a, b) {
+  return this.Sa.b ? this.Sa.b(b) : this.Sa.call(j, b)
+};
+Kf.prototype.r = function(a, b, c) {
+  return this.Sa.a ? this.Sa.a(b, c) : this.Sa.call(j, b, c)
+};
+Kf.prototype.call = function(a, b) {
+  return this.Gb.a ? this.Gb.a(b, this) : this.Gb.call(j, b, this)
+};
+Kf.prototype.apply = function(a, b) {
+  return a.call.apply(a, [a].concat(b.slice()))
+};
+Kf;
+var Lf = function() {
+  function a(a, b) {
+    return new Kf(a, b)
+  }
+  function b(a) {
+    return c.a(a, Zd)
+  }
+  var c = j, c = function(c, f) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, c);
+      case 2:
+        return a.call(this, c, f)
+    }
+    e(Error("Invalid arity: " + arguments.length))
+  };
+  c.b = b;
+  c.a = a;
+  return c
+}(), Mf = function() {
+  function a(a, b, c) {
+    return Lf.a(b, c).call(j, a)
+  }
+  function b(a, b) {
+    return c.c(a, b, Zd)
+  }
+  var c = j, c = function(c, f, h) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, c, f);
+      case 3:
+        return a.call(this, c, f, h)
+    }
+    e(Error("Invalid arity: " + arguments.length))
+  };
+  c.a = b;
+  c.c = a;
+  return c
+}();
+var Nf = {};
+function Of(a, b) {
+  if(a ? a.$b : a) {
+    return a.$b(a, b)
+  }
+  var c;
+  var d = Of[q(a == j ? j : a)];
+  d ? c = d : (d = Of._) ? c = d : e(w("Serializable.visit", a));
+  return c.call(j, a, b)
+}
+Nf.number = g;
+Of.number = function(a) {
+  return"" + Q(a)
+};
+Nf.string = g;
+Of.string = ba();
+Nf["null"] = g;
+Of["null"] = o("");
+Nf._ = g;
+Of._ = function(a, b) {
+  var c;
+  c = a ? ((c = a.l & 64) ? c : a.fb) ? g : a.l ? m : u(Ea, a) : u(Ea, a);
+  if(c) {
+    return rc.a(b, a)
+  }
+  e(w(Nf, a))
+};
+function Pf() {
+  return ca.navigator ? ca.navigator.userAgent : j
+}
+ra = qa = pa = oa = m;
+var Qf;
+if(Qf = Pf()) {
+  var Rf = ca.navigator;
+  oa = 0 == Qf.indexOf("Opera");
+  pa = !oa && -1 != Qf.indexOf("MSIE");
+  qa = !oa && -1 != Qf.indexOf("WebKit");
+  ra = !oa && !qa && "Gecko" == Rf.product
+}
+var Sf = pa, Tf = ra, Uf = qa, Vf;
+a: {
+  var Wf = "", Xf;
+  if(oa && ca.opera) {
+    var Yf = ca.opera.version, Wf = "function" == typeof Yf ? Yf() : Yf
+  }else {
+    if(Tf ? Xf = /rv\:([^\);]+)(\)|;)/ : Sf ? Xf = /MSIE\s+([^\);]+)(\)|;)/ : Uf && (Xf = /WebKit\/(\S+)/), Xf) {
+      var Zf = Xf.exec(Pf()), Wf = Zf ? Zf[1] : ""
+    }
+  }
+  if(Sf) {
+    var $f, ag = ca.document;
+    $f = ag ? ag.documentMode : aa;
+    if($f > parseFloat(Wf)) {
+      Vf = "" + $f;
+      break a
+    }
+  }
+  Vf = Wf
+}
+var bg = {};
+function cg(a) {
+  if(!bg[a]) {
+    for(var b = 0, c = ("" + Vf).replace(/^[\s\xa0]+|[\s\xa0]+$/g, "").split("."), d = ("" + a).replace(/^[\s\xa0]+|[\s\xa0]+$/g, "").split("."), f = Math.max(c.length, d.length), h = 0;0 == b && h < f;h++) {
+      var i = c[h] || "", k = d[h] || "", l = RegExp("(\\d*)(\\D*)", "g"), t = RegExp("(\\d*)(\\D*)", "g");
+      do {
+        var v = l.exec(i) || ["", "", ""], x = t.exec(k) || ["", "", ""];
+        if(0 == v[0].length && 0 == x[0].length) {
+          break
+        }
+        b = ((0 == v[1].length ? 0 : parseInt(v[1], 10)) < (0 == x[1].length ? 0 : parseInt(x[1], 10)) ? -1 : (0 == v[1].length ? 0 : parseInt(v[1], 10)) > (0 == x[1].length ? 0 : parseInt(x[1], 10)) ? 1 : 0) || ((0 == v[2].length) < (0 == x[2].length) ? -1 : (0 == v[2].length) > (0 == x[2].length) ? 1 : 0) || (v[2] < x[2] ? -1 : v[2] > x[2] ? 1 : 0)
+      }while(0 == b)
+    }
+    bg[a] = 0 <= b
+  }
+}
+var dg = {};
+function eg() {
+  return dg[9] || (dg[9] = Sf && document.documentMode && 9 <= document.documentMode)
+}
+;!Sf || eg();
+!Tf && !Sf || Sf && eg() || Tf && cg("1.9.1");
+Sf && cg("9");
+function fg(a, b) {
   var c = sc.c(cf, a, b);
   return M(c, hd(Yc(function(a) {
     return c === a
   }), b))
 }
-var Qf = function() {
+var gg = function() {
   function a(a, b) {
     return P(a) < P(b) ? lc.c(Kb, b, a) : lc.c(Kb, a, b)
   }
@@ -6633,7 +6751,7 @@ var Qf = function() {
       return b.call(this, c, d, l)
     }
     function b(a, c, d) {
-      a = Pf(P, Kb.e(d, c, G([a], 0)));
+      a = fg(P, Kb.e(d, c, G([a], 0)));
       return lc.c(kd, C(a), D(a))
     }
     a.o = 2;
@@ -6666,12 +6784,12 @@ var Qf = function() {
   b.e = c.e;
   return b
 }();
-function Rf(a) {
+function hg(a) {
   return a == j ? $e() : Xb(a) ? sc.a($e, a) : $e.e(G([a], 0))
 }
-var Sf = /([^\s\.#]+)(?:#([^\s\.#]+))?(?:\.([^\s#]+))?/, Tf, Uf = rc.a(af, O(L("\ufdd1'area", "\ufdd1'base", "\ufdd1'br", "\ufdd1'col", "\ufdd1'frame", "\ufdd1'hr", "\ufdd1'img", "\ufdd1'input", "\ufdd1'link", "\ufdd1'meta", "\ufdd1'p", "\ufdd1'param"), J("\ufdd0'line", 9)));
-Tf = sc.a(Ze, Uf);
-function Vf(a, b, c, d) {
+var ig = /([^\s\.#]+)(?:#([^\s\.#]+))?(?:\.([^\s#]+))?/, jg, kg = rc.a(af, O(L("\ufdd1'area", "\ufdd1'base", "\ufdd1'br", "\ufdd1'col", "\ufdd1'frame", "\ufdd1'hr", "\ufdd1'img", "\ufdd1'input", "\ufdd1'link", "\ufdd1'meta", "\ufdd1'p", "\ufdd1'param"), J("\ufdd0'line", 9)));
+jg = sc.a(Ze, kg);
+function lg(a, b, c, d) {
   this.W = a;
   this.Da = b;
   this.S = c;
@@ -6680,7 +6798,7 @@ function Vf(a, b, c, d) {
   this.l = 2229667594;
   2 < arguments.length ? (this.S = c, this.O = d) : this.O = this.S = j
 }
-p = Vf.prototype;
+p = lg.prototype;
 p.A = function(a) {
   var b = this.k;
   return b != j ? b : this.k = a = uc(a)
@@ -6692,7 +6810,7 @@ p.r = function(a, b, c) {
   return"\ufdd0'tag" === b ? this.W : "\ufdd0'attrs-map" === b ? this.Da : A.c(this.O, b, c)
 };
 p.P = function(a, b, c) {
-  return(va.a ? va.a("\ufdd0'tag", b) : va.call(j, "\ufdd0'tag", b)) ? new Vf(c, this.Da, this.S, this.O, j) : (va.a ? va.a("\ufdd0'attrs-map", b) : va.call(j, "\ufdd0'attrs-map", b)) ? new Vf(this.W, c, this.S, this.O, j) : new Vf(this.W, this.Da, this.S, Ob.c(this.O, b, c), j)
+  return(va.a ? va.a("\ufdd0'tag", b) : va.call(j, "\ufdd0'tag", b)) ? new lg(c, this.Da, this.S, this.O, j) : (va.a ? va.a("\ufdd0'attrs-map", b) : va.call(j, "\ufdd0'attrs-map", b)) ? new lg(this.W, c, this.S, this.O, j) : new lg(this.W, this.Da, this.S, Ob.c(this.O, b, c), j)
 };
 p.C = function(a, b, c) {
   return Z(b, function(a) {
@@ -6714,14 +6832,14 @@ p.v = function(a, b) {
   return s(c) ? g : m
 };
 p.I = function(a, b) {
-  return new Vf(this.W, this.Da, b, this.O, this.k)
+  return new lg(this.W, this.Da, b, this.O, this.k)
 };
 p.H = n("S");
 p.xa = function(a, b) {
-  return ic(We(["\ufdd0'attrs-map", "\ufdd0'tag"]), b) ? Pb.a(O(kd(Zd, a), this.S), b) : new Vf(this.W, this.Da, this.S, Vc(Pb.a(this.O, b)), j)
+  return ic(We(["\ufdd0'attrs-map", "\ufdd0'tag"]), b) ? Pb.a(O(kd(Zd, a), this.S), b) : new lg(this.W, this.Da, this.S, Vc(Pb.a(this.O, b)), j)
 };
-Vf;
-function Wf(a, b, c, d, f) {
+lg;
+function mg(a, b, c, d, f) {
   this.W = a;
   this.va = b;
   this.content = c;
@@ -6731,7 +6849,7 @@ function Wf(a, b, c, d, f) {
   this.l = 2229667594;
   3 < arguments.length ? (this.S = d, this.O = f) : this.O = this.S = j
 }
-p = Wf.prototype;
+p = mg.prototype;
 p.A = function(a) {
   var b = this.k;
   return b != j ? b : this.k = a = uc(a)
@@ -6743,7 +6861,7 @@ p.r = function(a, b, c) {
   return"\ufdd0'tag" === b ? this.W : "\ufdd0'attrs" === b ? this.va : "\ufdd0'content" === b ? this.content : A.c(this.O, b, c)
 };
 p.P = function(a, b, c) {
-  return(va.a ? va.a("\ufdd0'tag", b) : va.call(j, "\ufdd0'tag", b)) ? new Wf(c, this.va, this.content, this.S, this.O, j) : (va.a ? va.a("\ufdd0'attrs", b) : va.call(j, "\ufdd0'attrs", b)) ? new Wf(this.W, c, this.content, this.S, this.O, j) : (va.a ? va.a("\ufdd0'content", b) : va.call(j, "\ufdd0'content", b)) ? new Wf(this.W, this.va, c, this.S, this.O, j) : new Wf(this.W, this.va, this.content, this.S, Ob.c(this.O, b, c), j)
+  return(va.a ? va.a("\ufdd0'tag", b) : va.call(j, "\ufdd0'tag", b)) ? new mg(c, this.va, this.content, this.S, this.O, j) : (va.a ? va.a("\ufdd0'attrs", b) : va.call(j, "\ufdd0'attrs", b)) ? new mg(this.W, c, this.content, this.S, this.O, j) : (va.a ? va.a("\ufdd0'content", b) : va.call(j, "\ufdd0'content", b)) ? new mg(this.W, this.va, c, this.S, this.O, j) : new mg(this.W, this.va, this.content, this.S, Ob.c(this.O, b, c), j)
 };
 p.C = function(a, b, c) {
   return Z(b, function(a) {
@@ -6765,14 +6883,14 @@ p.v = function(a, b) {
   return s(c) ? g : m
 };
 p.I = function(a, b) {
-  return new Wf(this.W, this.va, this.content, b, this.O, this.k)
+  return new mg(this.W, this.va, this.content, b, this.O, this.k)
 };
 p.H = n("S");
 p.xa = function(a, b) {
-  return ic(We(["\ufdd0'content", "\ufdd0'attrs", "\ufdd0'tag"]), b) ? Pb.a(O(kd(Zd, a), this.S), b) : new Wf(this.W, this.va, this.content, this.S, Vc(Pb.a(this.O, b)), j)
+  return ic(We(["\ufdd0'content", "\ufdd0'attrs", "\ufdd0'tag"]), b) ? Pb.a(O(kd(Zd, a), this.S), b) : new mg(this.W, this.va, this.content, this.S, Vc(Pb.a(this.O, b)), j)
 };
-Wf;
-function Xf(a, b) {
+mg;
+function ng(a, b) {
   var c = dc(a) ? sc.a(J, a) : a, d = A.c(c, "\ufdd0'attrs-map", j);
   A.c(c, "\ufdd0'tag", j);
   return b.b ? b.b(function() {
@@ -6781,7 +6899,7 @@ function Xf(a, b) {
         for(;;) {
           if(B(a)) {
             var b = C(a), c = Mb.c(b, 0, j), b = Mb.c(b, 1, j);
-            return M(H.a("\ufdd0'class", c) ? T([" ", af(c), Lf.e(G(["=", '"'], 0)), dd(" ", b), Lf.e(G(['"'], 0))]) : T([" ", af(c), Lf.e(G(["=", '"'], 0)), b, Lf.e(G(['"'], 0))]), h(D(a)))
+            return M(H.a("\ufdd0'class", c) ? T([" ", af(c), Gf.e(G(["=", '"'], 0)), dd(" ", b), Gf.e(G(['"'], 0))]) : T([" ", af(c), Gf.e(G(["=", '"'], 0)), b, Gf.e(G(['"'], 0))]), h(D(a)))
           }
           return j
         }
@@ -6793,7 +6911,7 @@ function Xf(a, b) {
         for(;;) {
           if(B(a)) {
             var b = C(a), c = Mb.c(b, 0, j), b = Mb.c(b, 1, j);
-            return M(H.a("\ufdd0'class", c) ? T([" ", af(c), Lf.e(G(["=", '"'], 0)), dd(" ", b), Lf.e(G(['"'], 0))]) : T([" ", af(c), Lf.e(G(["=", '"'], 0)), b, Lf.e(G(['"'], 0))]), h(D(a)))
+            return M(H.a("\ufdd0'class", c) ? T([" ", af(c), Gf.e(G(["=", '"'], 0)), dd(" ", b), Gf.e(G(['"'], 0))]) : T([" ", af(c), Gf.e(G(["=", '"'], 0)), b, Gf.e(G(['"'], 0))]), h(D(a)))
           }
           return j
         }
@@ -6801,52 +6919,52 @@ function Xf(a, b) {
     }(d)
   }())
 }
-function Yf(a, b) {
+function og(a, b) {
   if(a ? a.Va : a) {
     return a.Va(a, b)
   }
   var c;
-  var d = Yf[q(a == j ? j : a)];
-  d ? c = d : (d = Yf._) ? c = d : e(w("HtmlSerializable.visit", a));
+  var d = og[q(a == j ? j : a)];
+  d ? c = d : (d = og._) ? c = d : e(w("HtmlSerializable.visit", a));
   return c.call(j, a, b)
 }
-Vf.prototype.Va = function(a, b) {
-  return Xf(a, b)
+lg.prototype.Va = function(a, b) {
+  return ng(a, b)
 };
-Wf.prototype.Va = function(a, b) {
+mg.prototype.Va = function(a, b) {
   var c = dc(a) ? sc.a(J, a) : a, d = A.c(c, "\ufdd0'content", j), f = A.c(c, "\ufdd0'attrs", j), c = A.c(c, "\ufdd0'tag", j), c = af(c), h;
-  h = Tf.b ? Tf.b(c) : Tf.call(j, c);
+  h = jg.b ? jg.b(c) : jg.call(j, c);
   h = s(h) ? Vb(d) : h;
-  f = T([Lf.e(G(["<"], 0)), c, f, s(h) ? Lf.e(G([" />"], 0)) : Lf.e(G([">"], 0))]);
-  c = T([Lf.e(G(["</"], 0)), c, Lf.e(G([">"], 0))]);
+  f = T([Gf.e(G(["<"], 0)), c, f, s(h) ? Gf.e(G([" />"], 0)) : Gf.e(G([">"], 0))]);
+  c = T([Gf.e(G(["</"], 0)), c, Gf.e(G([">"], 0))]);
   return b.b ? b.b(T([f, wa(h) ? T([d, c]) : j])) : b.call(j, T([f, wa(h) ? T([d, c]) : j]))
 };
-Kf.prototype.Va = ba();
-Yf.number = function(a) {
-  return Lf.e(G(["" + Q(a)], 0))
+Ff.prototype.Va = ba();
+og.number = function(a) {
+  return Gf.e(G(["" + Q(a)], 0))
 };
-Yf["null"] = o("");
-Yf._ = function(a, b) {
-  return Gf(a, b)
+og["null"] = o("");
+og._ = function(a, b) {
+  return Of(a, b)
 };
-function Zf(a, b, c) {
+function pg(a, b, c) {
   b = kd(Se(), hd(function(a) {
     var a = Mb.a(a, 1), b = a == j, a = b ? b : Vb(a);
     return wa(a)
   }, Se.e(G(["\ufdd0'id", b, "\ufdd0'class", c], 0))));
   return lc.c(function(a, b) {
     var c = Mb.c(b, 0, j), i = Mb.c(b, 1, j);
-    return H.a(c, "\ufdd0'class") ? Ob.c(a, c, Qf.a((new Cc("\ufdd0'class")).call(j, a, Ve), Rf(i))) : Ob.c(a, c, i)
+    return H.a(c, "\ufdd0'class") ? Ob.c(a, c, gg.a((new Cc("\ufdd0'class")).call(j, a, Ve), hg(i))) : Ob.c(a, c, i)
   }, b, a)
 }
-var $f = function() {
+var qg = function() {
   function a(a, b, c) {
     var d;
     d = af(a);
-    var l = Sf.exec(d);
+    var l = ig.exec(d);
     d = H.a(C(l), d) ? 1 === P(l) ? C(l) : U(l) : j;
     if(s(d)) {
-      return Mb.c(d, 0, j), l = Mb.c(d, 1, j), a = Mb.c(d, 2, j), d = Mb.c(d, 3, j), l = af(l), b = new Vf(l, Zf(b, a, Rf(fc(d) ? Hf.a(d, /\./) : d))), new Wf(l, b, c)
+      return Mb.c(d, 0, j), l = Mb.c(d, 1, j), a = Mb.c(d, 2, j), d = Mb.c(d, 3, j), l = af(l), b = new lg(l, pg(b, a, hg(fc(d) ? Cf.a(d, /\./) : d))), new mg(l, b, c)
     }
     e(Error(tc.e([Q("This is an invalid dom node tag: %s."), Q(" Should be in the form :tagname#id.class")].join(""), G([af(a)], 0))))
   }
@@ -6872,25 +6990,25 @@ var $f = function() {
   d.c = a;
   return d
 }();
-function ag(a, b) {
+function rg(a, b) {
   return nd(a, T(["\ufdd0'attrs", "\ufdd0'attrs-map", "\ufdd0'class"]), b)
 }
-function bg() {
-  var a = $f.c("\ufdd0'p.what", $d(["\ufdd0'class"], {"\ufdd0'class":"other"}), "hello");
-  return ag(a, function(a) {
-    return Qf.a(a, Rf("bold"))
+function sg() {
+  var a = qg.c("\ufdd0'p.what", $d(["\ufdd0'class"], {"\ufdd0'class":"other"}), "hello");
+  return rg(a, function(a) {
+    return gg.a(a, hg("bold"))
   })
 }
-function cg() {
-  var a = $f.c("\ufdd0'p.bold", $d(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello");
-  return ag(a, function(a) {
+function tg() {
+  var a = qg.c("\ufdd0'p.bold", $d(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello");
+  return rg(a, function(a) {
     return Rb.a(a, "bold")
   })
 }
-function dg(a, b) {
+function ug(a, b) {
   return md.c(a, T(["\ufdd0'attrs", "\ufdd0'attrs-map", "\ufdd0'class"]), $e()).call(j, b)
 }
-function eg(a, b) {
+function vg(a, b) {
   function c(a) {
     var b = hc(a);
     return b ? b : gc(a)
@@ -6913,7 +7031,7 @@ function eg(a, b) {
                 var h = C(f);
                 if(Yb(h)) {
                   var i = C(f), k = D(f), l = C(a);
-                  return b.b ? b.b($f.c(l, i, k)) : b.call(j, $f.c(l, i, k))
+                  return b.b ? b.b(qg.c(l, i, k)) : b.call(j, qg.c(l, i, k))
                 }
                 e(0)
               }catch(t) {
@@ -6924,7 +7042,7 @@ function eg(a, b) {
             }
           }catch(v) {
             if(0 === v) {
-              return k = D(a), l = C(a), b.b ? b.b($f.c(l, Zd, k)) : b.call(j, $f.c(l, Zd, k))
+              return k = D(a), l = C(a), b.b ? b.b(qg.c(l, Zd, k)) : b.call(j, qg.c(l, Zd, k))
             }
             e(v)
           }
@@ -6945,14 +7063,14 @@ function eg(a, b) {
   }
 }
 yd.prototype.Va = function(a, b) {
-  return eg(a, b)
+  return vg(a, b)
 };
-var fg = function() {
+var wg = function() {
   function a(a, b) {
-    return sc.a(Of, jd(Ef.a(T([a]), b)))
+    return sc.a(Jf, jd(Mf.a(T([a]), b)))
   }
   function b(a) {
-    return c.a(a, Yf)
+    return c.a(a, og)
   }
   var c = j, c = function(c, f) {
     switch(arguments.length) {
@@ -6967,69 +7085,14 @@ var fg = function() {
   c.a = a;
   return c
 }();
-Lf.e(G(['<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" ', '"http://www.w3.org/TR/html4/safeict.dtd">\n'], 0));
-Lf.e(G(['<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Safeict//EN" ', '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-safeict.dtd">\n'], 0));
-Lf.e(G(['<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ', '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n'], 0));
-Lf.e(G(["<!DOCTYPE html>\n"], 0));
-function gg() {
-  return ca.navigator ? ca.navigator.userAgent : j
-}
-ra = qa = pa = oa = m;
-var hg;
-if(hg = gg()) {
-  var ig = ca.navigator;
-  oa = 0 == hg.indexOf("Opera");
-  pa = !oa && -1 != hg.indexOf("MSIE");
-  qa = !oa && -1 != hg.indexOf("WebKit");
-  ra = !oa && !qa && "Gecko" == ig.product
-}
-var jg = pa, kg = ra, lg = qa, mg;
-a: {
-  var ng = "", og;
-  if(oa && ca.opera) {
-    var pg = ca.opera.version, ng = "function" == typeof pg ? pg() : pg
-  }else {
-    if(kg ? og = /rv\:([^\);]+)(\)|;)/ : jg ? og = /MSIE\s+([^\);]+)(\)|;)/ : lg && (og = /WebKit\/(\S+)/), og) {
-      var qg = og.exec(gg()), ng = qg ? qg[1] : ""
-    }
-  }
-  if(jg) {
-    var rg, sg = ca.document;
-    rg = sg ? sg.documentMode : aa;
-    if(rg > parseFloat(ng)) {
-      mg = "" + rg;
-      break a
-    }
-  }
-  mg = ng
-}
-var tg = {};
-function ug(a) {
-  if(!tg[a]) {
-    for(var b = 0, c = ("" + mg).replace(/^[\s\xa0]+|[\s\xa0]+$/g, "").split("."), d = ("" + a).replace(/^[\s\xa0]+|[\s\xa0]+$/g, "").split("."), f = Math.max(c.length, d.length), h = 0;0 == b && h < f;h++) {
-      var i = c[h] || "", k = d[h] || "", l = RegExp("(\\d*)(\\D*)", "g"), t = RegExp("(\\d*)(\\D*)", "g");
-      do {
-        var v = l.exec(i) || ["", "", ""], x = t.exec(k) || ["", "", ""];
-        if(0 == v[0].length && 0 == x[0].length) {
-          break
-        }
-        b = ((0 == v[1].length ? 0 : parseInt(v[1], 10)) < (0 == x[1].length ? 0 : parseInt(x[1], 10)) ? -1 : (0 == v[1].length ? 0 : parseInt(v[1], 10)) > (0 == x[1].length ? 0 : parseInt(x[1], 10)) ? 1 : 0) || ((0 == v[2].length) < (0 == x[2].length) ? -1 : (0 == v[2].length) > (0 == x[2].length) ? 1 : 0) || (v[2] < x[2] ? -1 : v[2] > x[2] ? 1 : 0)
-      }while(0 == b)
-    }
-    tg[a] = 0 <= b
-  }
-}
-var vg = {};
-function wg() {
-  return vg[9] || (vg[9] = jg && document.documentMode && 9 <= document.documentMode)
-}
-;!jg || wg();
-!kg && !jg || jg && wg() || kg && ug("1.9.1");
-jg && ug("9");
+Gf.e(G(['<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" ', '"http://www.w3.org/TR/html4/safeict.dtd">\n'], 0));
+Gf.e(G(['<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Safeict//EN" ', '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-safeict.dtd">\n'], 0));
+Gf.e(G(['<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ', '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n'], 0));
+Gf.e(G(["<!DOCTYPE html>\n"], 0));
 Uc.a("undefined", typeof exports) && (buster = require("buster"));
 var xg = T([1, 2, 3, "abc", "x", " ", 1.2, " ", "\ufdd1'foo", "\ufdd0'bar", j, j, T([j])]), yg = function() {
   function a(a, b, c) {
-    a = H.a(fg.b(a), b);
+    a = H.a(wg.b(a), b);
     c = s(c) ? [Q(c), Q(". ")].join("") : c;
     return buster.assert(a, [Q(c), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'html/to-html", "\ufdd1'in"), J("\ufdd0'line", 9)), "\ufdd1'out"), J("\ufdd0'line", 9))), Q(", got "), Q(a)].join(""))
   }
@@ -7071,47 +7134,47 @@ var xg = T([1, 2, 3, "abc", "x", " ", 1.2, " ", "\ufdd1'foo", "\ufdd0'bar", j, j
 }();
 buster.spec.describe("test to html", function() {
   buster.spec.it("with primitive types", function() {
-    var a = H.a(fg.b("hello"), "hello"), b = s(j) ? [Q(j), Q(". ")].join("") : j;
+    var a = H.a(wg.b("hello"), "hello"), b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", "hello"), "hello")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(123), "123");
+    a = H.a(wg.b(123), "123");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", 123), "123")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b("\ufdd0'keyword"), "<keyword></keyword>");
+    a = H.a(wg.b("\ufdd0'keyword"), "<keyword></keyword>");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", "\ufdd0'keyword"), "<keyword></keyword>")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b("\ufdd1'symbol"), "<symbol></symbol>");
+    a = H.a(wg.b("\ufdd1'symbol"), "<symbol></symbol>");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", L("\ufdd1'quote", "\ufdd1'symbol")), "<symbol></symbol>")), Q(", got "), Q(a)].join(""));
     return j
   });
   buster.spec.it("with DomNode types", function() {
-    var a = H.a(fg.b(sc.a($f, T(["\ufdd0'p.hello", Zd, "world"]))), '<p class="hello">world</p>'), b = s(j) ? [Q(j), Q(". ")].join("") : j;
+    var a = H.a(wg.b(sc.a(qg, T(["\ufdd0'p.hello", Zd, "world"]))), '<p class="hello">world</p>'), b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", L("\ufdd1'apply", "\ufdd1'html/-build-dom-node", U(["\ufdd0'p.hello", J(), "world"]))), '<p class="hello">world</p>')), Q(", got "), Q(a)].join(""));
     return j
   });
   buster.spec.it("with tag dsl", function() {
     zg.c(T(["\ufdd0'hr.clear", $d(["\ufdd0'asdf"], {"\ufdd0'asdf":123})]), "\ufdd0'asdf", "123");
-    var a = H.a(fg.b(T(["\ufdd0'hr#id"])), '<hr id="id" />'), b = s(j) ? [Q(j), Q(". ")].join("") : j;
+    var a = H.a(wg.b(T(["\ufdd0'hr#id"])), '<hr id="id" />'), b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'hr#id"])), '<hr id="id" />')), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'hr.classA"])), '<hr class="classA" />');
+    a = H.a(wg.b(T(["\ufdd0'hr.classA"])), '<hr class="classA" />');
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'hr.classA"])), '<hr class="classA" />')), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'hr.classA.classB"])), '<hr class="classA classB" />');
+    a = H.a(wg.b(T(["\ufdd0'hr.classA.classB"])), '<hr class="classA classB" />');
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'hr.classA.classB"])), '<hr class="classA classB" />')), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'div", T(["\ufdd0'div", xg])])), [Q("<div><div>"), Q("123abcx 1.2 foo:bar"), Q("</div></div>")].join(""));
+    a = H.a(wg.b(T(["\ufdd0'div", T(["\ufdd0'div", xg])])), [Q("<div><div>"), Q("123abcx 1.2 foo:bar"), Q("</div></div>")].join(""));
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'div", U(["\ufdd0'div", "\ufdd1'basic-sample-data"])])), L("\ufdd1'str", "<div><div>", "\ufdd1'basic-sample-data-str", "</div></div>"))), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'input", $d(["\ufdd0'type"], {"\ufdd0'type":"text"})])), '<input type="text" />');
+    a = H.a(wg.b(T(["\ufdd0'input", $d(["\ufdd0'type"], {"\ufdd0'type":"text"})])), '<input type="text" />');
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'input", J("\ufdd0'type", "text")])), '<input type="text" />')), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'div", T(["\ufdd0'div", T(["\ufdd0'div", T(["\ufdd0'div"])])])])), "<div><div><div><div></div></div></div></div>");
+    a = H.a(wg.b(T(["\ufdd0'div", T(["\ufdd0'div", T(["\ufdd0'div", T(["\ufdd0'div"])])])])), "<div><div><div><div></div></div></div></div>");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'div", U(["\ufdd0'div", U(["\ufdd0'div", U(["\ufdd0'div"])])])])), "<div><div><div><div></div></div></div></div>")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'div#a", T(["\ufdd0'div#b", T(["\ufdd0'div#c", T(["\ufdd0'div#d"])])])])), [Q('<div id="a"><div id="b"><div id="c"><div id="d">'), Q("</div></div></div></div>")].join(""));
+    a = H.a(wg.b(T(["\ufdd0'div#a", T(["\ufdd0'div#b", T(["\ufdd0'div#c", T(["\ufdd0'div#d"])])])])), [Q('<div id="a"><div id="b"><div id="c"><div id="d">'), Q("</div></div></div></div>")].join(""));
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'div#a", U(["\ufdd0'div#b", U(["\ufdd0'div#c", U(["\ufdd0'div#d"])])])])), L("\ufdd1'str", '<div id="a"><div id="b"><div id="c"><div id="d">', "</div></div></div></div>"))), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T(["\ufdd0'form#contact", $d(["\ufdd0'action"], {"\ufdd0'action":"GET"}), T(["\ufdd0'input", $d(["\ufdd0'type", "\ufdd0'name", "\ufdd0'value"], {"\ufdd0'type":"text", "\ufdd0'name":"first-name", "\ufdd0'value":"John & Paul"})])])), [Q('<form action="GET" id="contact">'), Q('<input name="first-name" type="text" value="John &amp; Paul" />'), Q("</form>")].join(""));
+    a = H.a(wg.b(T(["\ufdd0'form#contact", $d(["\ufdd0'action"], {"\ufdd0'action":"GET"}), T(["\ufdd0'input", $d(["\ufdd0'type", "\ufdd0'name", "\ufdd0'value"], {"\ufdd0'type":"text", "\ufdd0'name":"first-name", "\ufdd0'value":"John & Paul"})])])), [Q('<form action="GET" id="contact">'), Q('<input name="first-name" type="text" value="John &amp; Paul" />'), Q("</form>")].join(""));
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U(["\ufdd0'form#contact", J("\ufdd0'action", "GET"), U(["\ufdd0'input", J("\ufdd0'type", "text", "\ufdd0'name", "first-name", "\ufdd0'value", "John & Paul")])])), L("\ufdd1'str", '<form action="GET" id="contact">', '<input name="first-name" type="text" value="John &amp; Paul" />', "</form>"))), Q(", got "), Q(a)].join(""));
     return j
@@ -7120,7 +7183,7 @@ buster.spec.describe("test to html", function() {
 });
 buster.spec.describe("test htmlserializable protocol", function() {
   buster.spec.it("visit function is working correctly", function() {
-    var a = H.a(Yf("hello & world", j), "hello & world"), b = s(j) ? [Q(j), Q(". ")].join("") : j;
+    var a = H.a(og("hello & world", j), "hello & world"), b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'html/visit", "hello & world", j), J("\ufdd0'line", 12)), "hello & world"), J("\ufdd0'line", 12))), Q(", got "), Q(a)].join(""));
     return j
   });
@@ -7128,20 +7191,20 @@ buster.spec.describe("test htmlserializable protocol", function() {
 });
 buster.spec.describe("test dom node uitls", function() {
   buster.spec.it("`add-class` works correctly", function() {
-    yg.a(bg(), '<p class="bold other what">hello</p>');
+    yg.a(sg(), '<p class="bold other what">hello</p>');
     return j
   });
   buster.spec.it("`remove-class` works correctly", function() {
-    yg.a(cg(), '<p class="what">hello</p>');
+    yg.a(tg(), '<p class="what">hello</p>');
     return j
   });
   buster.spec.it("`has-class?` works correctly", function() {
-    var a = $f.c("\ufdd0'p.bold", $d(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), b;
-    b = dg(a, "bold");
-    b = s(b) ? dg(a, "what") : b;
+    var a = qg.c("\ufdd0'p.bold", $d(["\ufdd0'class"], {"\ufdd0'class":"what"}), "hello"), b;
+    b = ug(a, "bold");
+    b = s(b) ? ug(a, "what") : b;
     var c = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(b, [Q(c), Q("Expected "), Q(O(L("\ufdd1'and", O(L("\ufdd1'html/has-class?", "\ufdd1'node", "bold"), J("\ufdd0'line", 13)), O(L("\ufdd1'html/has-class?", "\ufdd1'node", "what"), J("\ufdd0'line", 13))), J("\ufdd0'line", 13))), Q(", got "), Q(b)].join(""));
-    b = wa(dg(a, "other"));
+    b = wa(ug(a, "other"));
     c = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(b, [Q(c), Q("Expected "), Q(O(L("\ufdd1'not", O(L("\ufdd1'html/has-class?", "\ufdd1'node", "other"), J("\ufdd0'line", 13))), J("\ufdd0'line", 13))), Q(", got "), Q(b)].join(""));
     return j
@@ -7155,18 +7218,18 @@ buster.spec.describe("test basic types", function() {
     return j
   });
   buster.spec.it("basic-sample-data is translated correctly", function() {
-    var a = H.a(fg.b(xg), "123abcx 1.2 foo:bar"), b = s(j) ? [Q(j), Q(". ")].join("") : j;
+    var a = H.a(wg.b(xg), "123abcx 1.2 foo:bar"), b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", "\ufdd1'basic-sample-data"), "\ufdd1'basic-sample-data-str")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(T([T([T([xg])])])), "123abcx 1.2 foo:bar");
+    a = H.a(wg.b(T([T([T([xg])])])), "123abcx 1.2 foo:bar");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", U([U([U(["\ufdd1'basic-sample-data"])])])), "\ufdd1'basic-sample-data-str")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(B(T([T([T([xg])])]))), "123abcx 1.2 foo:bar");
+    a = H.a(wg.b(B(T([T([T([xg])])]))), "123abcx 1.2 foo:bar");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", L("\ufdd1'seq", U([U([U(["\ufdd1'basic-sample-data"])])]))), "\ufdd1'basic-sample-data-str")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(L.b(L.b(xg))), "123abcx 1.2 foo:bar");
+    a = H.a(wg.b(L.b(L.b(xg))), "123abcx 1.2 foo:bar");
     b = s(j) ? [Q(j), Q(". ")].join("") : j;
     buster.assert(a, [Q(b), Q("Expected "), Q(L("\ufdd1'=", L("\ufdd1'html/to-html", L("\ufdd1'list", L("\ufdd1'list", "\ufdd1'basic-sample-data"))), "\ufdd1'basic-sample-data-str")), Q(", got "), Q(a)].join(""));
-    a = H.a(fg.b(function() {
+    a = H.a(wg.b(function() {
       return function d(a) {
         return new R(j, m, function() {
           for(;;) {
@@ -7185,69 +7248,6 @@ buster.spec.describe("test basic types", function() {
   });
   buster.spec.it("keywords are escaped correctly", function() {
     yg.c(T(["", "\ufdd0'ti&tle", 'fo"o']), ":ti&amp;tlefo&quot;o", "the keyword above should be HTML escaped");
-    return j
-  });
-  return j
-});
-Uc.a("undefined", typeof exports) && (buster = require("buster"));
-buster.spec.describe("test gen str escaper", function() {
-  buster.spec.it("creates a `str` function successfully", function() {
-    var a = H.a(Mf(function(a) {
-      return a.toString()
-    }).call(j, "abc", 123), "abc123"), b = s("should behave the same as `clojure.core/str`") ? [Q("should behave the same as `clojure.core/str`"), Q(". ")].join("") : "should behave the same as `clojure.core/str`";
-    buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L(O(L("\ufdd1'esc/-gen-str-escaper", O(L("\ufdd1'fn*", U(["\ufdd1'p1__1200#"]), O(L("\ufdd1'.toString", "\ufdd1'p1__1200#"), J("\ufdd0'line", 7))), J("\ufdd0'line", 7))), J("\ufdd0'line", 7)), "abc", 123), J("\ufdd0'line", 7)), "abc123"), J("\ufdd0'line", 7))), Q(", got "), Q(a)].join(""));
-    a = H.a(Mf(function(a) {
-      return a.toString().toUpperCase()
-    }).call(j, "abc", 123), "ABC123");
-    b = s("should be uppercase version of `clojure.core/str`") ? [Q("should be uppercase version of `clojure.core/str`"), Q(". ")].join("") : "should be uppercase version of `clojure.core/str`";
-    buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L(O(L("\ufdd1'esc/-gen-str-escaper", O(L("\ufdd1'fn*", U(["\ufdd1'p1__1201#"]), O(L("\ufdd1'upper-case", O(L("\ufdd1'.toString", "\ufdd1'p1__1201#"), J("\ufdd0'line", 7))), J("\ufdd0'line", 7))), J("\ufdd0'line", 7))), J("\ufdd0'line", 7)), "abc", 123), J("\ufdd0'line", 7)), "ABC123"), J("\ufdd0'line", 7))), Q(", got "), Q(a)].join(""));
-    return j
-  });
-  return j
-});
-buster.spec.describe("test low level char escaping", function() {
-  buster.spec.it("check low level char escaping", function() {
-    for(var a = B(Jf);;) {
-      if(a) {
-        var b = C(a), c = Mb.c(b, 0, j), d = Mb.c(b, 1, j);
-        T([function() {
-          var a = H.a(If("" + Q(c)), d), b = s("test lower-level escaper") ? [Q("test lower-level escaper"), Q(". ")].join("") : "test lower-level escaper";
-          return buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/-escape-html-chars", "\ufdd1'k"), J("\ufdd0'line", 8)), "\ufdd1'v"), J("\ufdd0'line", 8))), Q(", got "), Q(a)].join(""))
-        }(), function() {
-          var a = H.a(Of.b ? Of.b("" + Q(c)) : Of.call(j, "" + Q(c)), d), b = s("test via HtmlEscapable protocol") ? [Q("test via HtmlEscapable protocol"), Q(". ")].join("") : "test via HtmlEscapable protocol";
-          return buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/escape-html", O(L("\ufdd1'str", "\ufdd1'k"), J("\ufdd0'line", 8))), J("\ufdd0'line", 8)), "\ufdd1'v"), J("\ufdd0'line", 8))), Q(", got "), Q(a)].join(""))
-        }()]);
-        a = F(a)
-      }else {
-        break
-      }
-    }
-    return j
-  });
-  return j
-});
-buster.spec.describe("test HtmlEscapable", function() {
-  buster.spec.it("check HtmlEscapable protocol", function() {
-    for(var a = B(he([j, Lf.e(G(["&"], 0)), Lf.e(G(["&"], 0)), Lf.e(G(['&-<->-"'], 0)), "&", "abcd&e", '&-<->-"'], ' & & &-<->-" &amp; abcd&amp;e &amp;-&lt;-&gt;-&quot;'.split(" ")));;) {
-      if(a) {
-        var b = C(a), c = Mb.c(b, 0, j);
-        Mb.c(b, 1, j);
-        b = H.a(Nf(c), Of.b ? Of.b(c) : Of.call(j, c));
-        c = s("`-to-html-escaped-str` should behave the same way as `escape-html`") ? [Q("`-to-html-escaped-str` should behave the same way as `escape-html`"), Q(". ")].join("") : "`-to-html-escaped-str` should behave the same way as `escape-html`";
-        buster.assert(b, [Q(c), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/-to-html-escaped-str", "\ufdd1'inp"), J("\ufdd0'line", 9)), O(L("\ufdd1'esc/escape-html", "\ufdd1'inp"), J("\ufdd0'line", 9))), J("\ufdd0'line", 9))), Q(", got "), Q(b)].join(""));
-        a = F(a)
-      }else {
-        break
-      }
-    }
-    return j
-  });
-  return j
-});
-buster.spec.describe("test mixed pre escaped and not", function() {
-  buster.spec.it("check pre-escaped content with non-escaped content", function() {
-    var a = H.a(Of.a ? Of.a(Lf.e(G(['&-<->-"'], 0)), "-&->") : Of.call(j, Lf.e(G(['&-<->-"'], 0)), "-&->"), '&-<->-"-&amp;-&gt;'), b = s("mixed pre-escaped and non-escaped should work interchangeably") ? [Q("mixed pre-escaped and non-escaped should work interchangeably"), Q(". ")].join("") : "mixed pre-escaped and non-escaped should work interchangeably";
-    buster.assert(a, [Q(b), Q("Expected "), Q(O(L("\ufdd1'=", O(L("\ufdd1'esc/escape-html", O(L("\ufdd1'esc/safe", '&-<->-"'), J("\ufdd0'line", 10)), "-&->"), J("\ufdd0'line", 10)), '&-<->-"-&amp;-&gt;'), J("\ufdd0'line", 10))), Q(", got "), Q(a)].join(""));
     return j
   });
   return j
