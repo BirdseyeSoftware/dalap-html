@@ -1,44 +1,35 @@
 # dalap-html [![Build Status](https://travis-ci.org/BirdseyeSoftware/dalap-html.png)](https://travis-ci.org/BirdseyeSoftware/dalap-html)
 
-dalap-html provides an easy yet powerful library to render your
-templates using either Clojure (for server side rendering) or
-Clojurescript (for client side rendering).
+dalap-html is an html templating library that can be used from either
+Clojure (for server side rendering) or Clojurescript (for client side
+rendering).
 
-If you are familiar with hiccup/crate, then getting started with this
-library should be really straightforward.
+If you have used hiccup/crate, the basic syntax and usage should be
+familiar.
 
 ## Project Goals
 
-_Another rendering library... really?_. Yep, although other libraries
-out there do a pretty good job, we were looking for more flexibility
-at the time of managing our views. dalap-html provides:
+_Another html rendering library... really?_. Although other libraries
+do a pretty good job, we were looking for more flexibility
+and a better cross-platform workflow. dalap-html:
 
-* Different protocols that you can extend with your own types for
-  maximum customization.
+* Provides CSS-like selectors which allow you to transform, decorate,
+  and specialize your templates after definition. Write one set of
+  templates and then use selectors to specialize them for different
+  contexts. This is inspired by Enlive and CSS.
 
-* Transform/Decorate your templates after definition by using
-  something similar to CSS selectors (a la enlive).
+* Automatically escapes all HTML in strings. If you want something to
+  not be escaped, you have to be explicit about it.
 
-* Provides automatic HTML escaping, if you want something to not be
-  escaped, you have to be explicit about it.
+* Is very easy to extend and customize.
 
 ## Project Maturity
 
-dalap-html is a very young library; started in December 2011, used to
-manage HTML templates and rendering for projects Birdseye Software
-develops.
+dalap-html is young, beta-stability library and is subject to change.
 
 ## Install
 
-buster-cljs is released to clojars. If you are using maven, add the
-following repository definition to your pom.xml
-
-```xml
-<repository>
-  <id>clojars.org</id>
-  <url>http://clojars.org/repo</url>
-</repository>
-```
+dalap-html is released to clojars.
 
 ### The most recent release
 
@@ -78,6 +69,6 @@ Copyright © 2012 Birdseye Software Ltd.
 
 Distributed under the MIT License.
 
-[getting_started]:https://birdseye-sw.com/oss/dalap-html/getting_started/
-[documentation_site]:https://birdseye-sw.com/oss/dalap-html/
+[getting_started]:http://birdseyesoftware.github.com/dalap-html.docs/articles/getting_started.html
+[documentation_site]:http://birdseye-sw.com/oss/dalap-html/
 [test_suite]:https://github.com/BirdseyeSoftware/dalap-html/blob/master/test/clj/dalap/test/html_test.clj
