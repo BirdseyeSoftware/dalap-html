@@ -1,6 +1,6 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; src/clj/dalap/defaults.clj @ Wed Dec 12 01:21:42 UTC 2012
+;; src/clj/dalap/defaults.clj @ Thu Apr 04 16:30:20 GMT-08:00 2013
 ;;
 (ns dalap.defaults (:use [dalap.walk :only [walk]]))
 (defprotocol Serializable "A protocol providing the default implementation of Dalap's\n  serialization visitor interface." (visit [x walker]))

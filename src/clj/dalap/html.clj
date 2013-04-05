@@ -4,12 +4,10 @@
               [clojure.string :refer [split]]
               [dalap.walk :as walk]
               [dalap.html.escape :refer [PreEscaped safe escape-html]]
-              [dalap.defaults :as defaults])
-    (:require-macros [clojure.core.match.js :refer [match]]))}
+              [dalap.defaults :as defaults]))}
 (ns dalap.html
   (:require [clojure.set :refer [union]]
             [clojure.string :refer [split]]
-            [clojure.core.match :refer [match]]
             [dalap.walk :as walk]
             [dalap.html.escape :refer [safe escape-html]]
             [dalap.defaults :as defaults])
@@ -174,15 +172,20 @@
   (let [named? (fn [x]
                  (or (symbol? x)
                      (keyword? x)))]
-    ;@@TR: replace this
-    (match [v]
-      [([(tag :guard named?) (attrs :guard map?) & content] :seq)]
-      (w (-build-dom-node tag attrs content))
+                                        ;@@TR: replace this
+    (cond
+     (and (named? (first v))
+          (map? (second v)))
+     (let [[tag attrs & content] v]
+       (w (-build-dom-node tag attrs content)))
 
-      [([(tag :guard named?) & content] :seq)]
-      (w (-build-dom-node tag {} content))
+     (and (named? (first v))
+          (not (map? (second v))))
+     (let [[tag & content] v]
+       (w (-build-dom-node tag {} content)))
 
-      [_] (defaults/visit-seq v w))))
+     :else
+     (defaults/visit-seq v w))))
 
 ^{:cljs
   (extend-protocol HtmlSerializable
