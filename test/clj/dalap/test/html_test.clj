@@ -130,7 +130,7 @@
       (is (= (html/visit "hello & world" nil)
              "hello & world"))))
 
-(deftest test-dom-node-uitls
+(deftest test-dom-node-utils
   (it "`add-class` works correctly"
     (assert-html (-> (html/-build-dom-node :p.what
                                            { :class "other" }

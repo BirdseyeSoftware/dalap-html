@@ -1,6 +1,6 @@
 (ns dalap.defaults
   (:use [dalap.walk :only [walk]])
-  ^:clj (:import [clojure.lang Named Seqable]))
+  ^:clj (:import [clojure.lang Named Seqable Symbol]))
 
 (defprotocol Serializable
   "A protocol providing the default implementation of Dalap's
@@ -13,6 +13,7 @@
   java.lang.String (visit [s _] s)
   ^:clj Character ^:clj (visit [c _] (str c))
   ^{:cljs number} Number (visit [n _] (str n))
+  ^{:cljs cljs.core/Symbol} Symbol (visit [o _] (str o))
   ^:clj Named ^:clj (visit [o _] (str o)))
 
 (defn visit-seq [s w] (map w s))

@@ -1,17 +1,17 @@
-(defproject com.birdseye-sw/dalap-html "0.1.1-SNAPSHOT"
+(defproject com.birdseye-sw/dalap-html "0.1.1"
   :description "HTML template renderer using dalap"
   :url "http://birdseye-sw.com/oss/dalap-html"
   :license {:name "MIT"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  [com.birdseye-sw/dalap "0.1.0"]
                  [com.birdseye-sw/buster-cljs "0.1.0"]
 
-                 [org.clojure/clojurescript "0.0-1586"]
+                 [org.clojure/clojurescript "0.0-1843"]
                  [org.clojure/google-closure-library "0.0-2029-2"]]
 
-  :plugins [[lein-cljsbuild "0.3.0"]
-            [com.birdseye-sw/lein-dalap "0.1.0"]]
+  :plugins [[lein-cljsbuild "0.3.2"]
+            [com.birdseye-sw/lein-dalap "0.1.1"]]
 
   :hooks [leiningen.dalap]
 
@@ -30,7 +30,7 @@
       :optimizations :simple
       :pretty-print true}}
     ;;;
-    {:id :node-test
+    {:id "node-test"
      :source-paths ["src/cljs", "test/cljs"]
      ;; :notify-command ["buster_runner.sh"]
      :compiler
