@@ -3,17 +3,20 @@
     (:require [clojure.set :refer [union]]
               [clojure.string :refer [split]]
               [dalap.walk :as walk]
-              [dalap.html.escape :refer [PreEscaped safe escape-html]]
+              [dalap.html.escape :refer [PreEscaped]]
               [dalap.defaults :as defaults]))}
 (ns dalap.html
   (:require [clojure.set :refer [union]]
             [clojure.string :refer [split]]
             [dalap.walk :as walk]
-            [dalap.html.escape :refer [safe escape-html]]
+            [dalap.html.escape]
             [dalap.defaults :as defaults])
 
   (:import [clojure.lang IPersistentVector]
            [dalap.html.escape PreEscaped]))
+
+(def safe dalap.html.escape/safe) ; re-export
+(def escape-html dalap.html.escape/escape-html)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -79,6 +82,24 @@
   PreEscaped (visit [x _] x)
   DomNode (visit [dn w] (visit-dom-node dn w))
   TagAttrs (visit [ta w] (visit-tag-attrs ta w)))
+
+(defrecord Comment [contents]
+  HtmlSerializable
+ (visit [_ w]
+    (w [(safe "<!-- ")
+        contents
+        (safe " -->")])))
+(def html-comment ->Comment)
+
+(defrecord IEConditionalComment [condition contents]
+  HtmlSerializable
+  (visit [_ w]
+    (w [(safe "<!--[if ")
+        (safe condition)
+        (safe "]")
+        contents
+        (safe "<![endif]-->")])))
+(def ie-cond-comment ->IEConditionalComment)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

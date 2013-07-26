@@ -2,7 +2,7 @@
   (ns dalap.test.html-test
     (:require [goog.dom.classes :as gclass]
               [goog.dom :as gdom]
-              [dalap.html :as html]
+              [dalap.html :as html :refer [safe html-comment ie-cond-comment]]
               [dalap.walk :as walk])
     (:require-macros [buster-cljs.macros
                       :refer [initialize-buster deftest describe it is are]]))}
@@ -10,7 +10,7 @@
   (:require [buster-cljs.clojure :refer [deftest describe it is are]]
             [clojure.string :refer [split]]
             [clojure.xml :as xml]
-            [dalap.html :as html]
+            [dalap.html :as html :refer [safe html-comment ie-cond-comment]]
             [dalap.walk :as walk])
   (:import [java.io ByteArrayInputStream]))
 
@@ -123,6 +123,30 @@
       "<form action=\"GET\" id=\"contact\">"
       "<input name=\"first-name\" type=\"text\" value=\"John &amp; Paul\" />"
       "</form>"))))
+
+(deftest test-html-comments
+  (it "html & IE conditional comments are handled"
+    (are
+     [in out] (= (html/to-html in) out)
+
+     (html-comment "testing")
+     "<!-- testing -->"
+
+     (html-comment "escaped>&")
+     "<!-- escaped&gt;&amp; -->"
+
+     (html-comment (safe "not escaped>&"))
+     "<!-- not escaped>& -->"
+
+     (html-comment [:div "test"])
+     "<!-- <div>test</div> -->"
+
+     (ie-cond-comment "IE 7" "test")
+     "<!--[if IE 7]test<![endif]-->"
+     (ie-cond-comment "lt IE 7" "test")
+     "<!--[if lt IE 7]test<![endif]-->"
+     (ie-cond-comment "IE 7" [:div "foo"])
+     "<!--[if IE 7]<div>foo</div><![endif]-->")))
 
 
 (deftest test-htmlserializable-protocol
