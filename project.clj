@@ -1,4 +1,4 @@
-(defproject com.birdseye-sw/dalap-html "0.1.1"
+(defproject com.birdseye-sw/dalap-html "0.1.2"
   :description "HTML template renderer using dalap"
   :url "http://birdseye-sw.com/oss/dalap-html"
   :license {:name "MIT"
