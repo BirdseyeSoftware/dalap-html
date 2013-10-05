@@ -1,6 +1,6 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; src/clj/dalap/html/escape.clj @ Wed Jul 17 12:19:52 PDT 2013
+;; src/clj/dalap/html/escape.clj @ Sat Oct 05 15:11:54 PDT 2013
 ;;
 (ns dalap.html.escape (:require [clojure.string :as str] [goog.string :as gstr] [goog.string.StringBuffer :as gstringbuffer]))
 (deftype PreEscaped [val] Object (toString [_] (str val)))

@@ -1,6 +1,6 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; test/clj/dalap/test/html/escape_test.clj @ Fri Jul 26 14:31:56 PDT 2013
+;; test/clj/dalap/test/html/escape_test.clj @ Sat Oct 05 15:11:54 PDT 2013
 ;;
 (ns dalap.test.html.escape-test (:require [clojure.string :refer [upper-case]] [dalap.html.escape :as esc]) (:require-macros [buster-cljs.macros :refer [initialize-buster deftest describe it is]]))
 (initialize-buster)

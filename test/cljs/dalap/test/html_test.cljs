@@ -1,6 +1,6 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; test/clj/dalap/test/html_test.clj @ Fri Jul 26 14:31:56 PDT 2013
+;; test/clj/dalap/test/html_test.clj @ Sat Oct 05 15:11:54 PDT 2013
 ;;
 (ns dalap.test.html-test (:require [goog.dom.classes :as gclass] [goog.dom :as gdom] [dalap.html :as html :refer [safe html-comment ie-cond-comment]] [dalap.walk :as walk]) (:require-macros [buster-cljs.macros :refer [initialize-buster deftest describe it is are]]))
 (initialize-buster)

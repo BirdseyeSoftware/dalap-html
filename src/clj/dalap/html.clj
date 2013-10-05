@@ -1,10 +1,13 @@
 ^{:cljs
   (ns dalap.html
-    (:require [clojure.set :refer [union]]
-              [clojure.string :refer [split]]
-              [dalap.walk :as walk]
-              [dalap.html.escape :refer [PreEscaped]]
-              [dalap.defaults :as defaults]))}
+    (:require
+     [goog.string :as gstring]
+     [goog.string.format :as gformat]
+     [clojure.set :refer [union]]
+     [clojure.string :refer [split]]
+     [dalap.walk :as walk]
+     [dalap.html.escape :refer [PreEscaped]]
+     [dalap.defaults :as defaults]))}
 (ns dalap.html
   (:require [clojure.set :refer [union]]
             [clojure.string :refer [split]]
@@ -138,9 +141,10 @@
          (DomNode. tag-name tag-attrs content))
        (throw (new
                ^{:cljs js/Error} Exception
-               (format (str "This is an invalid dom node tag: %s."
-                            " Should be in the form :tagname#id.class")
-                       (name tag)))))))
+               (^{:cljs gstring/gformat} format
+                (str "This is an invalid dom node tag: %s."
+                     " Should be in the form :tagname#id.class")
+                (name tag)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

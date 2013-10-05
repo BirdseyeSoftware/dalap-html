@@ -1,8 +1,8 @@
 ;; This file was generated with lein-dalap from
 ;;
-;; src/clj/dalap/html.clj @ Fri Jul 26 14:31:56 PDT 2013
+;; src/clj/dalap/html.clj @ Sat Oct 05 15:11:54 PDT 2013
 ;;
-(ns dalap.html (:require [clojure.set :refer [union]] [clojure.string :refer [split]] [dalap.walk :as walk] [dalap.html.escape :refer [PreEscaped]] [dalap.defaults :as defaults]))
+(ns dalap.html (:require [goog.string :as gstring] [goog.string.format :as gformat] [clojure.set :refer [union]] [clojure.string :refer [split]] [dalap.walk :as walk] [dalap.html.escape :refer [PreEscaped]] [dalap.defaults :as defaults]))
 (def safe dalap.html.escape/safe)
 (def escape-html dalap.html.escape/escape-html)
 (defn -make-set [x] (cond (nil? x) (sorted-set) (sequential? x) (apply sorted-set x) :else (sorted-set x)))
@@ -21,7 +21,7 @@
 (def ie-cond-comment ->IEConditionalComment)
 (defn merge-tag-attrs [tag-attrs id clazz] (let [base-attrs (->> (sorted-map :id id :class clazz) (filter (fn* [p1__1290#] (not (-nil-or-empty? (nth p1__1290# 1))))) (into (sorted-map))) attr-merge (fn [result [k v]] (cond (= k :class) (assoc result k (union (:class result #{}) (-make-set v))) :else (assoc result k v)))] (reduce attr-merge base-attrs tag-attrs)))
 (defn norm-dom-node-classes [classes] (-make-set (if (string? classes) (split classes #"\.") classes)))
-(defn -build-dom-node ([tag] (-build-dom-node tag {} [])) ([tag attrs] (-build-dom-node tag attrs [])) ([tag attrs content] (if-let [tag-match (re-matches re-tag (name tag))] (let [[_ tag id classes] tag-match tag-name (name tag) tag-attrs (TagAttrs. tag-name (merge-tag-attrs attrs id (norm-dom-node-classes classes)))] (DomNode. tag-name tag-attrs content)) (throw (new js/Error (format (str "This is an invalid dom node tag: %s." " Should be in the form :tagname#id.class") (name tag)))))))
+(defn -build-dom-node ([tag] (-build-dom-node tag {} [])) ([tag attrs] (-build-dom-node tag attrs [])) ([tag attrs content] (if-let [tag-match (re-matches re-tag (name tag))] (let [[_ tag id classes] tag-match tag-name (name tag) tag-attrs (TagAttrs. tag-name (merge-tag-attrs attrs id (norm-dom-node-classes classes)))] (DomNode. tag-name tag-attrs content)) (throw (new js/Error (gstring/gformat (str "This is an invalid dom node tag: %s." " Should be in the form :tagname#id.class") (name tag)))))))
 (defn dom-node? "Checks if it is an instance of DomNode class" [node] (instance? DomNode node))
 (defn alter-class "Modifies class collection of a DomNode" [node f] (update-in node [:attrs :attrs-map :class] f))
 (defn add-class "Adds a new class to the given DomNode" [node clazz] (alter-class node (fn* [p1__1291#] (union p1__1291# (-make-set clazz)))))
